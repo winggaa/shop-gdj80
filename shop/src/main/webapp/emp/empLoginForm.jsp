@@ -9,21 +9,6 @@
 	}
 %>
 
-<%
-	String empId = null;
-	String empPw = null;
-	
-	/*
-	select emp_id empId 
-	from emp
-	where active='ON' and emp_id =? and emp_pw = password(?) 
-	*/
-	
-	/*
-		실패 /emp/empLoginForm.jsp
-		성공 /emp/empList.jsp
-	*/
-%>
 <!DOCTYPE html>
 <html>
 <head>
