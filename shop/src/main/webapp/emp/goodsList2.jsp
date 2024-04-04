@@ -42,7 +42,7 @@ while(rs1.next()){
 %>
 
 <%
-int rowPerPage = 30;
+int rowPerPage = 10;
 int currentPage=1;
 //System.out.println(totalRow+"<<<<row");
 int startRow = (currentPage-1)*rowPerPage;
@@ -142,7 +142,7 @@ while(rs2.next()){
 	<div>
 		<a href="/shop/emp/addGoodsForm.jsp">상품등록</a>
 	</div>
-	<form action="/shop/emp/goodsList.jsp" >
+	
 		<div class="row" >
 		<div class="col-2" style="background-color:#E8D9FF;">사이드바 자리 회원정보 같은거</div>
 		<div class="col" style="background-color:#CEFBC9 ">
@@ -159,15 +159,13 @@ while(rs2.next()){
 				<%
 					}
 				%>
-				
-				
 				<!-- Button trigger modal -->
 					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
 					  카테고리 추가
 					</button>
 					
 					<!-- Modal -->
-					
+					<form action="/shop/emp/goodsList.jsp" >
 					<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 					  <div class="modal-dialog">
 					    <div class="modal-content">
@@ -206,7 +204,6 @@ while(rs2.next()){
 					        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					      </div>
 					      <div class="modal-body">
-					        <h2>주의:선택된 카테고리의 모든 데이터가 삭제됨</h2>
 					        카테고리를 선택해주세요
 					        <select name="deleteCategory">
 							<option value="">선택</option>
@@ -221,14 +218,17 @@ while(rs2.next()){
 							</select>
 					      </div>
 					      <div class="modal-footer">
-					        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">삭제취소</button>
-					        <button type="submit" class="btn btn-primary">삭제하기</button>
+					        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소하기</button>
+					        <button type="submit" class="btn btn-primary">입력하기</button>
 					      </div>
 					    </div>
 					  </div>
 					</div>
 					</form>
-				<!-- --------------------------------------------------- -->		
+				<!-- --------------------------------------------------- -->
+	
+				
+				<a href="/shop/emp/addGoodsForm.jsp">카테고리 추가</a>		
 			</div>
 	
 			<div class="d-flex flex-wrap">
@@ -236,7 +236,7 @@ while(rs2.next()){
 		for(HashMap sm :goodsList){
 		%>
 			
-		<div class="p-2 flex-fill ">
+		<div class="p-2 flex-fill align-items-start">
 				<img src="/shop/img/img1.png"  style="width: 267px ;, height: 183px" >
 				<br>	
 				<sapn style="text-align: center"><%=(String) (sm.get("category"))%></sapn>

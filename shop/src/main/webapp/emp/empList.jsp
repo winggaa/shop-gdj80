@@ -93,11 +93,12 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </head>
-<body>
+<body class="container-fluid">
 	<div>
 	네비바 자리
 	<!-- empMenu.jsp include : 주체(서버) vs redirect(주체:클라이언트)-->
 	<!-- 주체가 서버이기때문에 include할때는 절대주소가 /shop/... 시작하지 않는다.... -->
+	
 	<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 	</div>
 	
@@ -105,7 +106,7 @@
 	<div class="col-2 text-bg-primary p-3">
 	sidebar 자리
 	</div>
-	<div class="col bg-white border shadow p-3 mb-5 bg-body-tertiary rounded">
+	<div class="col bg-white border shadow p-3 bg-body-tertiary rounded">
 	<h1>사원 목록</h1>
 	<a href="/shop/emp/empLogout.jsp">로그아웃</a>
 	<form action ="/emp/modifyEmpActive.jsp" >
