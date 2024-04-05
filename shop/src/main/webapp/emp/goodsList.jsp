@@ -94,11 +94,14 @@ while(rs2.next()){
 	sm.put("goodsContent",rs2.getString("goods_content"));
 	sm.put("goodsPrice",rs2.getInt("goods_price"));
 	sm.put("goodsAmount",rs2.getInt("goods_amount"));
+	sm.put("goodsImg",rs2.getString("filename"));
+	sm.put("goodsNo",rs2.getString("goods_no"));
 	goodsList.add(sm);
 }
 %>
 
 <% 
+	
 	ResultSet rs3 = null;
 	PreparedStatement stmt3 = null;
 	String sql3 = null;
@@ -109,6 +112,7 @@ while(rs2.next()){
 	//System.out.println(stmt3);
 	rs3 = stmt3.executeQuery();
 	response.sendRedirect("/shop/emp/goodsList.jsp");
+	return;
 	}
 %>
 <% 
@@ -133,10 +137,32 @@ while(rs2.next()){
 	<title></title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+	<style>
+	
+	</style>
 </head>
 <body>
-	<div>
+	<div class="row">
 	<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
+	</div>
+	<h1 style="text-align: center">캐러셀 상품 홍보 자리</h1>
+	<div class="container" style="width:1500px;height: 300px;">
+	<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+		  <div class="carousel-inner">
+		   <div class="carousel-item active">
+      		<img src="/shop/upload/img1.png" class="d-block w-100"  style="height: 300px;">
+    	   </div>
+    	   
+		  <% 
+		for(HashMap sm :goodsList){
+		%>
+		    <div class="carousel-item">
+		      <img src="/shop/upload/<%=(String) (sm.get("goodsImg"))%>" class="d-block w-100 " style="width:1000px;height: 300px;	">
+		   </div>
+		  <%} %> 
+		     
+		  </div>
+		</div>
 	</div>
 	
 	<div>
@@ -144,7 +170,10 @@ while(rs2.next()){
 	</div>
 	<form action="/shop/emp/goodsList.jsp" >
 		<div class="row" >
-		<div class="col-2" style="background-color:#E8D9FF;">사이드바 자리 회원정보 같은거</div>
+		<div class="col-2" style="background-color:#E8D9FF;">
+		<h2>이벤트 팝업 자리 ?</h2>
+		
+		</div>
 		<div class="col" style="background-color:#CEFBC9 ">
 			<div>
 				<a href="/shop/emp/goodsList.jsp">전체</a>
@@ -230,24 +259,31 @@ while(rs2.next()){
 					</form>
 				<!-- --------------------------------------------------- -->		
 			</div>
+			
+	<div>
+	
+	</div>
 	
 			<div class="d-flex flex-wrap">
 		<% 
 		for(HashMap sm :goodsList){
 		%>
-			
-		<div class="p-2 flex-fill ">
-				<img src="/shop/img/img1.png"  style="width: 267px ;, height: 183px" >
+		
+		<div class="p-2 flex-fill" style="text-align: center">
+				<a href="/shop/emp/goodsListOne.jsp?goods_no=<%=(String) (sm.get("goodsNo"))%>">	
+				<img src="/shop/upload/<%=(String) (sm.get("goodsImg"))%>"  style="width: 267px ; height: 200px " >
+				</a>
 				<br>	
 				<sapn style="text-align: center"><%=(String) (sm.get("category"))%></sapn>
 				<br>	
 				<span style="text-align: center"><%=(String) (sm.get("goodsTitle"))%></span>
 				<br>
-				<%=(String) (sm.get("category"))%>
+				<sapn>가격:<%=(Integer) (sm.get("goodsPrice"))%></sapn>
 				<br>
-				<%=(Integer) (sm.get("goodsPrice"))%>
+				<sapn>재고:<%=(Integer) (sm.get("goodsAmount"))%></sapn>
 				
 			</div>
+			
 		<%
 		}
 		%> 

@@ -46,7 +46,9 @@ while(rs1.next()){
 	</div>
 	
 	<h1>상품등록</h1>
-	<form method="post" action="/shop/emp/addGoodsAction.jsp">
+	<form method="post" action="/shop/emp/addGoodsAction.jsp" enctype="multipart/form-data">
+
+
 	<div>
 		category:
 		
@@ -64,8 +66,13 @@ while(rs1.next()){
 	<!--  emp_id 값은 세션변수에서 바인딩 -->
 	<div>
 		goodsTitle:
-		<input type="text" name ="goodsTitle">
+		<input type="text" name ="goodsTitle" >
 	</div>
+	<div>
+		goodsImage : 
+		<input type="file" name="goodsImg">
+	</div>
+	
 	<div>
 		goodsPrice:
 		<input type="number" name ="goodsPrice">
