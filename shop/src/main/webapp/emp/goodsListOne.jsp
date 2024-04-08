@@ -3,6 +3,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "java.sql.*" %>
 <%@ page import = "java.util.*" %>
+<%@ page import="java.io.*" %>
+<%@ page import="java.nio.file.*" %>
 <% // 로그인 인증분기
  if(session.getAttribute("loginEmp") == null) {
 	response.sendRedirect("/shop/emp/empLoginForm.jsp");
@@ -43,12 +45,14 @@ rs1 = stmt1.executeQuery();
 	}
 	
 	System.out.println(category.get(0).get("goodsNo") + "어레이리스트에서 2차원배열 값빼오기");
-	Object sm = category.get(0).get("goodsNo");
+	Object smm = category.get(0).get("goodsNo");
+	
 %>
 		<%// System.out.println(category.get(0).get("goodsNo").toString()+"testtest");%>
 
 <%
 
+// File df = new File(filePath, rs.getString("filename"));
 ///<------------------------ 삭제 쿼리문 --------------------------------------------------------->
 
 
@@ -58,12 +62,15 @@ String deleteButton = request.getParameter("deleteButton");
 if(deleteButton != null){
 ResultSet rs2 = null;
 PreparedStatement stmt2 = null;
-String sql2 = "DELETE FROM shop.goods WHERE  goods_no=?";
+String sql2 = "DELETE FROM shop.goods WHERE goods_no=?";
 stmt2 = conn.prepareStatement(sql2);
 stmt2.setObject(1,category.get(0).get("goodsNo"));
 System.out.println(stmt2);
 rs2 = stmt2.executeQuery();
-
+String filePath = request.getServletContext().getRealPath("upload");
+File df = new File(filePath,(String)category.get(0).get("goodsImg"));
+System.out.println(df);
+df.delete();
 response.sendRedirect("/shop/emp/goodsList.jsp");
 }
 %>

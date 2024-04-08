@@ -1,4 +1,3 @@
-<%@page import="org.mariadb.jdbc.client.util.Parameter"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "java.sql.*" %>
 <%@ page import = "java.util.*" %>
@@ -10,8 +9,8 @@
 	// System.out.println(deleteCategory);
 	
 	//System.out.println(insertCategory);
-	if(session.getAttribute("loginEmp") == null) {
-		response.sendRedirect("/shop/emp/empLoginForm.jsp");
+	if(session.getAttribute("loginCs") == null) {
+		response.sendRedirect("/shop/customer/loginForm.jsp");
 		return;
 	}
 
@@ -116,7 +115,7 @@ while(rs2.next()){
 	String sql3 = null;
 	sql3 = "insert into category(category) values(?)";
 	//System.out.println(request.getParameter("insertCategory")+"<---insertcategory");
-	if(request.getParameter("insertCategory") != null && request.getParameter("insertCategory") !=""){
+	if(request.getParameter("insertCategory") != null ){
 	String insertCategory = request.getParameter("insertCategory");
 	stmt3 = conn.prepareStatement(sql3);
 	stmt3.setString(1, insertCategory);
@@ -143,29 +142,6 @@ while(rs2.next()){
 	
 %>
 
-<%
-	ArrayList<HashMap<String,Object>> allCategory = new ArrayList<HashMap<String,Object>>(); 
-	ResultSet rs5 = null;
-	PreparedStatement stmt5 = null;
-	String sql5 = "select * FROM category";
-	
-	stmt5 = conn.prepareStatement(sql5);
-	rs5 = stmt5.executeQuery();
-	
-	
-	
-	while(rs5.next()){
-		//System.out.println(rs5.getString("category"));	
-		HashMap<String,Object> ac = new HashMap<String,Object>();	
-		ac.put("category", rs5.getString("category"));
-		ac.put("createDate", rs5.getString("create_date")); 
-		allCategory.add(ac);
-		
-	}
-	for(HashMap abc : allCategory )  {
-		System.out.println((String) (abc.get("category")));
-	}
-%>
 
 <!--  model layer -->
 <!DOCTYPE html>
@@ -180,9 +156,7 @@ while(rs2.next()){
 	</style>
 </head>
 <body>
-	<div class="row">
-	<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
-	</div>
+	
 	<h1 style="text-align: center">캐러셀 상품 홍보 자리</h1>
 	<div class="container" style="width:1500px;height: 300px;">
 	<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
@@ -203,9 +177,7 @@ while(rs2.next()){
 		</div>
 	</div>
 	
-	<div>
-		<a href="/shop/emp/addGoodsForm.jsp">상품등록</a>
-	</div>
+	
 	<form action="/shop/emp/goodsList.jsp" >
 		<div class="row" >
 		<div class="col-2" style="background-color:#E8D9FF;">
@@ -226,77 +198,7 @@ while(rs2.next()){
 				<%
 					}
 				%>
-				
-				
-				<!-- Button trigger modal -->
-					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-					  카테고리 추가
-					</button>
-					
-					<!-- Modal -->
-					
-					<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-					  <div class="modal-dialog">
-					    <div class="modal-content">
-					      <div class="modal-header">
-					        <h1 class="modal-title fs-5" id="exampleModalLabel">카테고리 추가</h1>
-					        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					      </div>
-					      <div class="modal-body">
-					        카테고리 이름을 입력해주세요
-					        <input type="text" name="insertCategory" >
-					      </div>
-					      <div class="modal-footer">
-					        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소하기</button>
-					        <button type="submit" class="btn btn-primary">입력하기</button>
-					      </div>
-					    </div>
-					  </div>
-					</div>
-					
-					
-					
-					
-				<!-- --------------------------------------------------- -->
-				<!-- Button trigger modal -->
-					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteModal">
-					  카테고리 삭제
-					</button>
-					
-					<!-- Modal -->
-					
-					<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-					  <div class="modal-dialog">
-					    <div class="modal-content">
-					      <div class="modal-header">
-					        <h1 class="modal-title fs-5" id="exampleModalLabel2">카테고리 삭제</h1>
-					        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					      </div>
-					      <div class="modal-body">
-					        <h2>주의:선택된 카테고리의 모든 데이터가 삭제됨</h2>
-					        카테고리를 선택해주세요
-					        <select name="deleteCategory">
-							<option value="">선택</option>
-							
-							<%
-								for(HashMap am : allCategory){
-									
-							%>
-								<option value="<%=(String) (am.get("category"))%>"><%=(String) (am.get("category"))%></option>
-							<%
-								}
-							%>
-							</select>
-					      </div>
-					      <div class="modal-footer">
-					        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">삭제취소</button>
-					        <button type="submit" class="btn btn-primary">삭제하기</button>
-					      </div>
-					    </div>
-					  </div>
-					</div>
-					</form>
-					
+						
 					<form action="/shop/emp/goodsList.jsp">
 					<input type="text" name="searchWord">
 					 
