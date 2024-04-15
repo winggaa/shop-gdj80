@@ -1,3 +1,6 @@
+<%@page import="shop.dao.GoodsDAO"%>
+<%@page import="shop.dao.DBHelper"%>
+<%@page import="shop.dao.EmpDAO"%>
 <%@page import="org.mariadb.jdbc.client.util.Parameter"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "java.sql.*" %>
@@ -14,7 +17,6 @@
 		response.sendRedirect("/shop/emp/empLoginForm.jsp");
 		return;
 	}
-
 %>
 
 <%
@@ -22,11 +24,13 @@
 	
 %>
 <%
-Class.forName("org.mariadb.jdbc.Driver");
+
+
+
+
+Connection conn = DBHelper.getConnection();
 ResultSet rs1 = null;
-Connection conn = null;
 PreparedStatement stmt1 = null; 
-conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
 String sql1 = "SELECT category, COUNT(*) cnt FROM goods GROUP BY category ORDER BY category ASC";
 stmt1  = conn.prepareStatement(sql1);
 rs1 = stmt1.executeQuery();
@@ -40,9 +44,11 @@ while(rs1.next()){
 	totalRow = rs1.getInt("cnt");
 	categoryList.add(m);
 }
+
 %>
 
 <%
+
 int rowPerPage = 30;
 int currentPage=1;
 //System.out.println(totalRow+"<<<<row");
@@ -68,79 +74,22 @@ String searchWord = "";
 if(request.getParameter("searchWord") !=null){
 	searchWord = (request.getParameter("searchWord"));
 }
+	// 굿즈 리스트 불러오는 메소드 
+ArrayList<HashMap<String,Object>> goodsList = GoodsDAO.goodsList(category, searchWord, startRow, rowPerPage);
 	
-	
-ResultSet rs2 = null;
-PreparedStatement stmt2 = null;
-String sql2 = null;
-//System.out.println(category);
-	if(category == null){
-	sql2 = "select * from goods where goods_title like ? limit ? , ?";
-	stmt2 = conn.prepareStatement(sql2);
-	stmt2.setString(1,"%"+searchWord+"%");
-	stmt2.setInt(2, startRow);
-	stmt2.setInt(3, rowPerPage);
-
-	} else{
-	sql2 = "select * from goods where category = ? and goods_title like ? limit ? , ?";
-	stmt2 = conn.prepareStatement(sql2);
-	stmt2.setString(1, category);
-	stmt2.setString(2,"%"+searchWord+"%");
-	stmt2.setInt(3, startRow);
-	stmt2.setInt(4, rowPerPage);
-	  }
-
-//System.out.println(stmt2+"<<<<<<");
-rs2 = stmt2.executeQuery();
-//System.out.println(stmt2);
-ArrayList<HashMap<String, Object>> goodsList = new ArrayList<HashMap<String, Object>>() ;
-
-while(rs2.next()){
-	HashMap<String, Object> sm = new HashMap<String, Object>();
-	sm.put("category", rs2.getString("category"));
-	sm.put("empId",	  rs2.getString("emp_id"));
-	sm.put("goodsTitle",rs2.getString("goods_title"));
-	sm.put("goodsContent",rs2.getString("goods_content"));
-	sm.put("goodsPrice",rs2.getInt("goods_price"));
-	sm.put("goodsAmount",rs2.getInt("goods_amount"));
-	sm.put("goodsImg",rs2.getString("filename"));
-	sm.put("goodsNo",rs2.getString("goods_no"));
-	goodsList.add(sm);
-}
 %>
 
+
 <% 
-	
-	ResultSet rs3 = null;
-	PreparedStatement stmt3 = null;
-	String sql3 = null;
-	sql3 = "insert into category(category) values(?)";
-	//System.out.println(request.getParameter("insertCategory")+"<---insertcategory");
-	if(request.getParameter("insertCategory") != null && request.getParameter("insertCategory") !=""){
+	// 카테고리 생성 메소드
 	String insertCategory = request.getParameter("insertCategory");
-	stmt3 = conn.prepareStatement(sql3);
-	stmt3.setString(1, insertCategory);
-	//System.out.println(stmt3);
-	rs3 = stmt3.executeQuery();
-	response.sendRedirect("/shop/emp/goodsList.jsp");
-	return;
-	}
+	GoodsDAO.insertCategory(insertCategory);
 %>
-<% 
-	ResultSet rs4 = null;
-	PreparedStatement stmt4 = null;
-	String sql4 = null;
-	sql4 = "DELETE FROM category WHERE category=?";
-	//System.out.println(deleteCategory+ "<---deleteCategory");
-	if(request.getParameter("deleteCategory") != null){
+
+<%	
+	// 카테고리 삭제 메소드 
 	String deleteCategory = request.getParameter("deleteCategory");
-	stmt4 = conn.prepareStatement(sql4);
-	stmt4.setString(1, deleteCategory);
-	System.out.println(stmt4 +"<<<<<<<<stmt4");
-	rs4 = stmt4.executeQuery();
-	response.sendRedirect("/shop/emp/goodsList.jsp");
-	}
-	
+	GoodsDAO.deleteCategory(deleteCategory);
 %>
 
 <%
@@ -151,9 +100,7 @@ while(rs2.next()){
 	
 	stmt5 = conn.prepareStatement(sql5);
 	rs5 = stmt5.executeQuery();
-	
-	
-	
+		
 	while(rs5.next()){
 		//System.out.println(rs5.getString("category"));	
 		HashMap<String,Object> ac = new HashMap<String,Object>();	

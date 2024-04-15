@@ -1,3 +1,4 @@
+<%@page import="shop.dao.*"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "java.sql.*" %>
 <%@ page import = "java.net.*" %>
@@ -15,7 +16,6 @@
 %>
 
 <% 	
-	
 	// 페이징
 	int currentPage = 1;
 	if(request.getParameter("currentPage") != null){
@@ -27,44 +27,20 @@
 %>
 <!--  model layer -->
 <%
-	// 특수한 형태의 데이터(RDMBS:mariadb)
-	// -> API사용() 하여 모델(ResultSet) 취득
-	// -> 일반화된 자료구조로 변경
-	/*
-	select emp_id empId, emp_name empName, emp_job empJob,  hire_date hireDate, active
-	from emp
-	order by active asc, hire_date desc
-	*/	
-	Class.forName("org.mariadb.jdbc.Driver");
-	ResultSet rs1 = null;
-	Connection conn = null;
-	PreparedStatement stmt1 = null; 
-	conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
-	String sql1 = "select emp_id empId, emp_name empName, emp_job empJob, hire_date hireDate , active from emp order by hire_date desc limit ? , ?";
-	stmt1 = conn.prepareStatement(sql1);
-	stmt1.setInt(1, startRow);
-	stmt1.setInt(2, rowPerPage);
-	rs1 = stmt1.executeQuery();
+		
 	
 	// JDBC API 종속된 자료구조 모델 ResultSet -> 기본 API 자료구조(ArrayList)로 변경
 	ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+	// emp 리스트 불러오는 코드 
+	list = EmpDAO.selectEmpsList(startRow, rowPerPage);
 	
-	//ResultSet -> ArrayList<HashMap<String, Object>>
-	while(rs1.next()){
-		HashMap<String, Object> m = new HashMap<String, Object>();
-		m.put("empId", rs1.getString("empId"));
-		m.put("empName", rs1.getString("empName"));
-		m.put("empJob", rs1.getString("empJob"));
-		m.put("hireDate", rs1.getString("hireDate"));
-		m.put("active", rs1.getString("active"));
-		list.add(m);
-			
-		//JDBC API 사용이 끝났다면 DB자원들을 반납
-	/*	stmt1.close();
-		rs1.close();
-		conn.close();
-							*/
-	}
+	
+	// 마지막 페이지 번호 구하기
+	int lastPage = EmpDAO.row(rowPerPage);
+	
+	/*
+	Connection conn = DBHelper.getConnection();
+	
 	int totalRow = 0;
 	String sql2 = "select count(*) from emp";
 	ResultSet rs2 = null;
@@ -81,6 +57,7 @@
 	if(totalRow%rowPerPage != 0) {
 		lastPage = lastPage + 1;
 	}
+	*/
 	// System.out.println(lastPage + " <-- lastPage");
 %>
 
