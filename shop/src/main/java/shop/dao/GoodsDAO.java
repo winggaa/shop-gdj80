@@ -1,7 +1,8 @@
 package shop.dao;
+
 import java.sql.*;
-import java.util.*;
-import shop.dao.*;
+import java.util.*; 
+import java.net.*; 
 
 public class GoodsDAO {
 	
@@ -79,7 +80,9 @@ public class GoodsDAO {
 			}
 		}
 	
-		
+	
+
+		}
 		
 	
-}
+

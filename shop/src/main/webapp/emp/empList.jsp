@@ -38,27 +38,6 @@
 	// 마지막 페이지 번호 구하기
 	int lastPage = EmpDAO.row(rowPerPage);
 	
-	/*
-	Connection conn = DBHelper.getConnection();
-	
-	int totalRow = 0;
-	String sql2 = "select count(*) from emp";
-	ResultSet rs2 = null;
-	PreparedStatement stmt2 = null;
-	stmt2 = conn.prepareStatement(sql2);
-	rs2 = stmt2.executeQuery();
-	if(rs2.next()) {
-		totalRow = rs2.getInt("count(*)");
-	}
-	// System.out.println(totalRow + " <-- totalRow");
-	
-	int lastPage = totalRow / rowPerPage;
-	
-	if(totalRow%rowPerPage != 0) {
-		lastPage = lastPage + 1;
-	}
-	*/
-	// System.out.println(lastPage + " <-- lastPage");
 %>
 
 <!-- view layes -->

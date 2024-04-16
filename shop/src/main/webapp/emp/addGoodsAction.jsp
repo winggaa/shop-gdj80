@@ -20,6 +20,7 @@ String goodsPrice =request.getParameter		("goodsPrice");
 String goodsAmount = request.getParameter   ("goodsAmount");
 String goodsContent = request.getParameter  ("goodsContent");
 
+// 이미지파일 업로드 한거 저장하는 코드
 Part part = request.getPart("goodsImg");
 String originalName = part.getSubmittedFileName();
 
@@ -29,18 +30,12 @@ String exe = originalName.substring(dotIdx); // .png
 UUID uuid = UUID.randomUUID();
 String filename = uuid.toString().replace("-", "");
 filename = filename + exe;
-/*
-System.out.println (category);     
-System.out.println (goodsTitle);     
-System.out.println (goodsPrice);      
-System.out.println (goodsAmount);    
-System.out.println (goodsContent);
-*/
+
 %>
 <!--  Session 설정값 : 입력시 로그인 emp의 emp_id 값이 필요 -->
 <%
 	HashMap<String,Object> loginMember = (HashMap<String,Object>) (session.getAttribute("loginEmp"));
-	
+	String empId = (String)loginMember.get("empId");
 	System.out.println((String)loginMember.get("empId"));
 %>
 

@@ -93,6 +93,7 @@ ArrayList<HashMap<String,Object>> goodsList = GoodsDAO.goodsList(category, searc
 %>
 
 <%
+
 	ArrayList<HashMap<String,Object>> allCategory = new ArrayList<HashMap<String,Object>>(); 
 	ResultSet rs5 = null;
 	PreparedStatement stmt5 = null;
@@ -112,6 +113,7 @@ ArrayList<HashMap<String,Object>> goodsList = GoodsDAO.goodsList(category, searc
 	for(HashMap abc : allCategory )  {
 		System.out.println((String) (abc.get("category")));
 	}
+	
 %>
 
 <!--  model layer -->
