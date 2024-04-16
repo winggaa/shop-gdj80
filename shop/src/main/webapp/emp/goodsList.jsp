@@ -7,6 +7,8 @@
 <%@ page import = "java.util.*" %>
 
 <% 
+
+	System.out.println("test");
 	request.setCharacterEncoding("UTF-8"); 
 	// String insertCategory = request.getParameter("insertCategory"); 아래에 같은 form 에 있어서 null값이 넘어옴 전송되면.
 	// String deleteCategory = request.getParameter("deleteCategory");             == 
