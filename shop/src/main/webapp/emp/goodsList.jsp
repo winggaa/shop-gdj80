@@ -7,115 +7,57 @@
 <%@ page import = "java.util.*" %>
 
 <% 
-
-	System.out.println("test");
+	//인증분기
 	request.setCharacterEncoding("UTF-8"); 
-	// String insertCategory = request.getParameter("insertCategory"); 아래에 같은 form 에 있어서 null값이 넘어옴 전송되면.
-	// String deleteCategory = request.getParameter("deleteCategory");             == 
-	// System.out.println(deleteCategory);
-	
-	//System.out.println(insertCategory);
 	if(session.getAttribute("loginEmp") == null) {
 		response.sendRedirect("/shop/emp/empLoginForm.jsp");
 		return;
 	}
-%>
 
-<%
+	// 카테고리값 요청 -- null이면 전체 출력 값이 있으면 해당하는 카테고리 출력
 	String category = request.getParameter("category");
+	Connection conn = DBHelper.getConnection();
+	int totalRow = 0;
+	//카테고리 인덱스 메소드
+	ArrayList<HashMap<String, Object>> categoryList = GoodsDAO.categoryIndex();
+	//출력할 데이터베이스의 총행 구하는 메소드 
+	totalRow= GoodsDAO.totalRow(category);
+
+	//페이징용 함수 선언
+	int rowPerPage  = 30;
+	int currentPage = 1;
+	if(request.getParameter("currentPage") != null){
+		currentPage = Integer.parseInt(request.getParameter("currentPage"));
+	}
 	
-%>
-<%
-
-
-
-
-Connection conn = DBHelper.getConnection();
-ResultSet rs1 = null;
-PreparedStatement stmt1 = null; 
-String sql1 = "SELECT category, COUNT(*) cnt FROM goods GROUP BY category ORDER BY category ASC";
-stmt1  = conn.prepareStatement(sql1);
-rs1 = stmt1.executeQuery();
-ArrayList<HashMap<String, Object>> categoryList = new ArrayList<HashMap<String, Object>>() ;
-int totalRow = 0;
-
-while(rs1.next()){
-	HashMap<String, Object> m = new HashMap<String, Object>();
-	m.put("category", rs1.getString("category"));
-	m.put("cnt",	  rs1.getInt("cnt"));
-	totalRow = rs1.getInt("cnt");
-	categoryList.add(m);
-}
-
-%>
-
-<%
-
-int rowPerPage = 30;
-int currentPage=1;
-//System.out.println(totalRow+"<<<<row");
-int startRow = (currentPage-1)*rowPerPage;
-int lastPage = totalRow / rowPerPage;
-if(request.getParameter("currentPage") != null){
-	currentPage = Integer.parseInt(request.getParameter("currentPage"));
-}
-
-if(totalRow % rowPerPage !=0){
-	lastPage = lastPage + 1;
-}
-%>
-<%
-/*
-null이면
-select * from goods
-null이 아니면
-select * from goods where category=?
-
-*/
-String searchWord = "";
-if(request.getParameter("searchWord") !=null){
-	searchWord = (request.getParameter("searchWord"));
-}
-	// 굿즈 리스트 불러오는 메소드 
-ArrayList<HashMap<String,Object>> goodsList = GoodsDAO.goodsList(category, searchWord, startRow, rowPerPage);
+	int startRow = (currentPage-1)*rowPerPage;
+	int lastPage = totalRow / rowPerPage;
 	
-%>
+	
+	if(totalRow % rowPerPage !=0){
+		lastPage = lastPage + 1;
+	}
 
-
-<% 
+	/*	null이면 		select * from goods
+		null이 아니면  select * from goods where category=?
+		검색 값 분기	*/
+	String searchWord = "";
+	if(request.getParameter("searchWord") !=null){
+		searchWord = (request.getParameter("searchWord"));
+	}
+	// 굿즈 리스트 불러오는 메소드  
+	ArrayList<HashMap<String,Object>> goodsList = GoodsDAO.goodsList(category, searchWord, startRow, rowPerPage);
+	 
 	// 카테고리 생성 메소드
 	String insertCategory = request.getParameter("insertCategory");
 	GoodsDAO.insertCategory(insertCategory);
-%>
-
-<%	
+	
 	// 카테고리 삭제 메소드 
 	String deleteCategory = request.getParameter("deleteCategory");
 	GoodsDAO.deleteCategory(deleteCategory);
-%>
-
-<%
-
-	ArrayList<HashMap<String,Object>> allCategory = new ArrayList<HashMap<String,Object>>(); 
-	ResultSet rs5 = null;
-	PreparedStatement stmt5 = null;
-	String sql5 = "select * FROM category";
 	
-	stmt5 = conn.prepareStatement(sql5);
-	rs5 = stmt5.executeQuery();
-		
-	while(rs5.next()){
-		//System.out.println(rs5.getString("category"));	
-		HashMap<String,Object> ac = new HashMap<String,Object>();	
-		ac.put("category", rs5.getString("category"));
-		ac.put("createDate", rs5.getString("create_date")); 
-		allCategory.add(ac);
-		
-	}
-	for(HashMap abc : allCategory )  {
-		System.out.println((String) (abc.get("category")));
-	}
-	
+	// 삭제할 카테고리 목록 불러오기 
+	ArrayList<HashMap<String,Object>> allCategory = GoodsDAO.allCategory();
 %>
 
 <!--  model layer -->
@@ -306,17 +248,17 @@ ArrayList<HashMap<String,Object>> goodsList = GoodsDAO.goodsList(category, searc
 							if(currentPage > 1) {
 						%>
 								<li>
-									<a href="/shop/emp/empList.jsp?currentPage=1" >처음페이지</a>
+									<a href="/shop/emp/goodsList.jsp?currentPage=1&category=<%=category%>">처음페이지</a>
 								</li>
 								<li>
-									<a href="/shop/emp/empList.jsp?currentPage=<%=currentPage-1%>">이전페이지</a>
+									<a href="/shop/emp/goodsList.jsp?currentPage=<%=currentPage-1%>&category=<%=category%>">이전페이지</a>
 								</li>
 						<%		
 							} else {
 						%>
 								
 								<li>
-									<a style="pointer-events: none;" href="/shop/emp/empList.jsp?currentPage=<%=currentPage-1%>">이전페이지</a>
+									<a style="pointer-events: none;" href="/shop/emp/goodsList.jsp?currentPage=<%=currentPage-1%>&category=<%=category%>">이전페이지</a>
 								</li>
 						<%		
 							}
@@ -324,10 +266,10 @@ ArrayList<HashMap<String,Object>> goodsList = GoodsDAO.goodsList(category, searc
 							if(currentPage < lastPage) {
 						%>
 								<li>
-									<a href="/shop/emp/empList.jsp?currentPage=<%=currentPage+1%>">다음페이지</a>
+									<a href="/shop/emp/goodsList.jsp?currentPage=<%=currentPage+1%>&category=<%=category%>">다음페이지</a>
 								</li>
 								<li>
-									<a href="/shop/emp/empList.jsp?currentPage=<%=lastPage%>">마지막페이지</a>
+									<a href="/shop/emp/goodsList.jsp?currentPage=<%=lastPage%>&category=<%=category%>">마지막페이지</a>
 								</li>
 						<%		
 							}

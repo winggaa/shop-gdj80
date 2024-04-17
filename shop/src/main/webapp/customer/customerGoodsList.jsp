@@ -46,6 +46,7 @@ int rowPerPage = 30;
 int currentPage=1;
 //System.out.println(totalRow+"<<<<row");
 int startRow = (currentPage-1)*rowPerPage;
+System.out.println(startRow);
 int lastPage = totalRow / rowPerPage;
 if(request.getParameter("currentPage") != null){
 	currentPage = Integer.parseInt(request.getParameter("currentPage"));

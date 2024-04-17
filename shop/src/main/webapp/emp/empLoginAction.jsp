@@ -30,14 +30,15 @@
 		
 		
 	} else {		
-		System.out.println("로그인 성공");
+		
+		//System.out.println("로그인 성공");
 		//하나의 세션변수안에 여러개의 값을 저장하기 위해서 hashmp타입을 사용
 		session.setAttribute("loginEmp", loginEmp);
 		
 		HashMap<String, Object> m = (HashMap<String, Object>)(session.getAttribute("loginEmp"));
-		System.out.println((String) (m.get("empId"))); //
-		System.out.println((String) (m.get("empName"))); // 
-		System.out.println((Integer) (m.get("grade"))); //
+		//System.out.println((String) (m.get("empId"))); //
+		//System.out.println((String) (m.get("empName"))); // 
+		//System.out.println((Integer) (m.get("grade"))); //
 		
 		response.sendRedirect("/shop/emp/empList.jsp");
 	  }

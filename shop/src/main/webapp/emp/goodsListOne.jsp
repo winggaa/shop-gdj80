@@ -1,3 +1,5 @@
+<%@page import="shop.dao.GoodsDAO"%>
+<%@page import="shop.dao.DBHelper"%>
 <%@page import="org.apache.catalina.ha.backend.Sender"%>
 <%@page import="java.util.HashMap"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -12,68 +14,47 @@
 }
 %>
 
-<% // goods_no값 받아오기
-String goodsNo = request.getParameter("goods_no");
-//System.out.println(goodsNo +"text no");
+<%  // goods_no값 받아오기
+	String goodsNo = request.getParameter("goods_no");
+	//System.out.println(goodsNo +"text no");
 %>
 
-<% // 데이터베이스 값 받아서 hashMap에 넣기
-Class.forName("org.mariadb.jdbc.Driver");
-ResultSet rs1 = null;
-Connection conn = null;
-PreparedStatement stmt1 = null; 
-conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
-String sql1 = "select * from goods where goods_no = ?";
-stmt1 = conn.prepareStatement(sql1);
-stmt1.setString(1,goodsNo);
-rs1 = stmt1.executeQuery();
-
-	ArrayList<HashMap<String,Object>> category = new ArrayList<HashMap<String,Object>>() ;
-	
-	while(rs1.next()){
-	HashMap<String,Object> s = new HashMap<String,Object>();
-	s.put("goodsContent",rs1.getString("goods_content"));
-	s.put("goodsPrice",rs1.getString("goods_price"));
-	s.put("goodsImg",rs1.getString("filename"));
-	s.put("goodsAmount",rs1.getString("goods_amount"));
-	s.put("goodsCategory",rs1.getString("category"));
-	s.put("goodsTitle",rs1.getString("goods_title"));
-	s.put("createDate",rs1.getString("create_date"));
-	s.put("updateDate",rs1.getString("update_date"));
-	s.put("goodsNo",rs1.getInt("goods_no"));
-	category.add(s);
-	}
-	
-	System.out.println(category.get(0).get("goodsNo") + "어레이리스트에서 2차원배열 값빼오기");
-	Object smm = category.get(0).get("goodsNo");
-	
+<% 
+	Connection conn =  DBHelper.getConnection();
+	//goods_no에 해당하는 db정보를 가져오는 메소드  
+	ArrayList<HashMap<String,Object>> category = GoodsDAO.category(goodsNo);
+	//System.out.println(category.get(0).get("goodsNo") + "어레이리스트에서 2차원배열 값빼오기");
+	//Object smm = category.get(0).get("goodsNo");
+	// System.out.println(category.get(0).get("goodsNo").toString()+"testtest");	
 %>
-		<%// System.out.println(category.get(0).get("goodsNo").toString()+"testtest");%>
+
 
 <%
-
-// File df = new File(filePath, rs.getString("filename"));
-///<------------------------ 삭제 쿼리문 --------------------------------------------------------->
-
-
-//String num = category.get(0).get("goodsNo").toString();
-String deleteButton = request.getParameter("deleteButton");
-//System.out.println(category.get(0,));
-if(deleteButton != null){
-ResultSet rs2 = null;
-PreparedStatement stmt2 = null;
-String sql2 = "DELETE FROM shop.goods WHERE goods_no=?";
-stmt2 = conn.prepareStatement(sql2);
-stmt2.setObject(1,category.get(0).get("goodsNo"));
-System.out.println(stmt2);
-rs2 = stmt2.executeQuery();
-String filePath = request.getServletContext().getRealPath("upload");
-File df = new File(filePath,(String)category.get(0).get("goodsImg"));
-System.out.println(df);
-df.delete();
-response.sendRedirect("/shop/emp/goodsList.jsp");
-}
+	
+	// File df = new File(filePath, rs.getString("filename"));
+	///<------------------------ 삭제 쿼리문 --------------------------------------------------------->
+	
+	
+	//String num = category.get(0).get("goodsNo").toString();
+	String deleteButton = request.getParameter("deleteButton");
+	//System.out.println(category.get(0,));
+	if(deleteButton != null){
+	ResultSet rs2 = null;
+	PreparedStatement stmt2 = null;
+	String sql2 = "DELETE FROM shop.goods WHERE goods_no=?";
+	stmt2 = conn.prepareStatement(sql2);
+	stmt2.setObject(1,category.get(0).get("goodsNo"));
+	System.out.println(stmt2);
+	rs2 = stmt2.executeQuery();
+	String filePath = request.getServletContext().getRealPath("upload");
+	File df = new File(filePath,(String)category.get(0).get("goodsImg"));
+	System.out.println(df);
+	df.delete();
+	response.sendRedirect("/shop/emp/goodsList.jsp");
+	}
 %>
+
+
 <!DOCTYPE html>
 <html>
 <head>

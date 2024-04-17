@@ -14,8 +14,8 @@ public class DBHelper {
 		FileReader fr = new FileReader("d:\\dev\\auth\\mariadb.Properties");
 		Properties prop = new Properties();
 		prop.load(fr);
-		System.out.println(prop.getProperty("id") + "<<<id");
-		System.out.println(prop.getProperty("pw") + "<<<pw");
+		//System.out.println(prop.getProperty("id") + "<<<id");
+		//System.out.println(prop.getProperty("pw") + "<<<pw");
 		String id = prop.getProperty("id");
 		String pw = prop.getProperty("pw");
 		

@@ -44,7 +44,7 @@ if(rs1.next()){
 	
 	
 	session.setAttribute("loginCs", loginCs);
-	response.sendRedirect("/shop/customer/customerGoodList.jsp");
+	response.sendRedirect("/shop/customer/customerGoodsList.jsp");
 } else {		// 로그인실패
 	System.out.println("로그인실패");
 	String errMsg =  URLEncoder.encode("아이디와 비밀번호가 잘못되었습니다","utf-8");		
