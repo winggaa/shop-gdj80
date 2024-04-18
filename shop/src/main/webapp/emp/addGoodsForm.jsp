@@ -52,7 +52,7 @@ while(rs1.next()){
 	<div>
 		category:
 		
-		<select name="category">
+		<select name="category" >
 			<option value="">선택</option>
 			<%
 				for(String c : categoryList){

@@ -130,7 +130,11 @@ public class GoodsDAO {
 			return totalRow;
 			
 		}
-	
+		
+		// 카테고리별 행의개수를 구하기 위함
+		// /emp/goodsList.jsp
+		// return : ArrayList<HashMap<String, Object>> categoryList
+		
 		public static ArrayList<HashMap<String, Object>> categoryIndex() throws Exception {
 			Connection conn = DBHelper.getConnection();
 			ResultSet rs1 = null;
@@ -151,6 +155,11 @@ public class GoodsDAO {
 
 	
 		}
+		
+		// 카테고리 추가를했을때 goods에 데이터가 입력되지않으면 category에는 존재하지만 goods에는 존재하지않아 category에서 카테고리를 불러와야함 
+		// /emp/goodsList.jsp
+		// return : ArrayList<HashMap<String, Object>> allCategory
+		
 		public static ArrayList<HashMap<String,Object>> allCategory() throws Exception {
 			
 			Connection conn = DBHelper.getConnection();
@@ -172,6 +181,10 @@ public class GoodsDAO {
 			}
 			return allCategory;
 		}
+		
+		// 카테고리 상세보기를 할때 불러올 정보를 위한 테이블 
+		// /emp/goodsListOne.jsp
+		// return : ArrayList<HashMap<String, Object>> category
 		
 		public static ArrayList<HashMap<String,Object>> category(String goodsNo) throws Exception{
 			// 데이터베이스 값 받아서 hashMap에 넣기
@@ -203,7 +216,22 @@ public class GoodsDAO {
 		}
 		
 		
+		
+		public static int addGoods(String category ,String empId ,String goodsTitle,String filename,String goodsContent, int goodsPrice , int goodsAmount) throws Exception {
+			Connection conn = DBHelper.getConnection();
 			
+			String sql1 = "INSERT INTO goods(category , emp_id, goods_title, filename ,goods_content, goods_price, goods_amount ) VALUES(?,?,?,?,?,?,?)";
+			PreparedStatement stmt = conn.prepareStatement(sql1);
+			stmt.setString(1, category);
+			stmt.setString(2, empId);
+			stmt.setString(3, goodsTitle);
+			stmt.setString(4, filename);
+			stmt.setString(5, goodsContent);
+			stmt.setInt(6, goodsPrice);
+			stmt.setInt(7, goodsAmount);
+			int row = stmt.executeUpdate();
+			return row;	
+		}
 			
 			
 		
