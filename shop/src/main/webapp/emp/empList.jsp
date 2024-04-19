@@ -33,8 +33,6 @@
 	ArrayList<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 	// emp 리스트 불러오는 코드 
 	list = EmpDAO.selectEmpsList(startRow, rowPerPage);
-	
-	
 	// 마지막 페이지 번호 구하기
 	int lastPage = EmpDAO.row(rowPerPage);
 	

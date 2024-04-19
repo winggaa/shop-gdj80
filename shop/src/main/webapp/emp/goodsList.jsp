@@ -76,16 +76,17 @@
 	<div class="row">
 	<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 	</div>
+	
 	<h1 style="text-align: center">캐러셀 상품 홍보 자리</h1>
 	<div class="container" style="width:1500px;height: 300px;">
 	<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
 		  <div class="carousel-inner">
 		   <div class="carousel-item active">
-      		<img src="/shop/upload/img1.png" class="d-block w-100"  style="height: 300px;">
+      		<img src="/shop/upload/default.jpg" class="d-block w-100"  style="height: 300px;">
     	   </div>
     	   
 		  <% 
-		for(HashMap sm :goodsList){
+		for(HashMap<String,Object> sm :goodsList){
 		%>
 		    <div class="carousel-item">
 		      <img src="/shop/upload/<%=(String) (sm.get("goodsImg"))%>" class="d-block w-100 " style="width:1000px;height: 300px;	">
@@ -100,7 +101,7 @@
 		<a href="/shop/emp/addGoodsForm.jsp">상품등록</a>
 	</div>
 	<form action="/shop/emp/goodsList.jsp" >
-		<div class="row" >
+		<div class="row">
 		<div class="col-2" style="background-color:#E8D9FF;">
 		<h2>이벤트 팝업 자리 ?</h2>
 		
@@ -216,21 +217,24 @@
 	
 			<div class="d-flex flex-wrap">
 		<% 
-		for(HashMap sm :goodsList){
+		for(HashMap<String,Object> sm :goodsList){
+			
 		%>
 		
 		<div class="p-2 flex-fill" style="text-align: center">
+		
 				<a href="/shop/emp/goodsListOne.jsp?goods_no=<%=(String) (sm.get("goodsNo"))%>">	
-				<img src="/shop/upload/<%=(String) (sm.get("goodsImg"))%>"  style="width: 267px ; height: 200px " >
+				<img src="/shop/upload/<%=(String) (sm.get("goodsImg"))%>" style="width: 267px ; height: 200px " >
 				</a>
+				
 				<br>	
-				<sapn style="text-align: center"><%=(String) (sm.get("category"))%></sapn>
+				<span style="text-align: center"><%=(String) (sm.get("category"))%></span>
 				<br>	
 				<span style="text-align: center"><%=(String) (sm.get("goodsTitle"))%></span>
 				<br>
-				<sapn>가격:<%=(Integer) (sm.get("goodsPrice"))%></sapn>
+				<span>가격:<%=(Integer) (sm.get("goodsPrice"))%></span>
 				<br>
-				<sapn>재고:<%=(Integer) (sm.get("goodsAmount"))%></sapn>
+				<span>재고:<%=(Integer) (sm.get("goodsAmount"))%></span>
 				
 			</div>
 			

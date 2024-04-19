@@ -112,6 +112,21 @@ public class EmpDAO {
 		// System.out.println(lastPage + " <-- lastPage");
 	}
 
+	// modifyEmpActive.jsp
+	// 직원의 active on off 상태 변경 
+	// parameter : 현상태의 active 값 , 그리고 직원 아이디.
+	// return: void
+		public static void modifyEmpOnOff(String active , String empId) throws Exception{
+		Connection conn = DBHelper.getConnection();
+		ResultSet rs1 = null;
+		PreparedStatement stmt1 = null; 
+
+		String sql1 = "UPDATE `shop`.`emp` SET active = ? WHERE emp_id=?";
+		stmt1 = conn.prepareStatement(sql1);
+		stmt1.setString(1,active);
+		stmt1.setString(2,empId );
+		rs1 = stmt1.executeQuery();
+	}
 			
 		
 		

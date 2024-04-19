@@ -1,3 +1,6 @@
+<%@page import="shop.dao.GoodsDAO"%>
+<%@page import="shop.dao.EmpDAO"%>
+<%@page import="shop.dao.DBHelper"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import = "java.util.*" %>
 <%@ page import = "java.sql.*" %>
@@ -5,27 +8,9 @@
 		response.sendRedirect("/shop/emp/empLoginForm.jsp");
 		return;
 	}
-%>
 
-<%
-Class.forName("org.mariadb.jdbc.Driver");
-ResultSet rs1 = null;
-Connection conn = null;
-PreparedStatement stmt1 = null; 
-conn = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/shop", "root", "java1234");
-String sql1 = "select category from category";
-stmt1 = conn.prepareStatement(sql1);
-rs1 = stmt1.executeQuery();
-
-// JDBC API 종속된 자료구조 모델 ResultSet -> 기본 API 자료구조(ArrayList)로 변경
-ArrayList<String> categoryList = new ArrayList<String>();
-
-//ResultSet -> ArrayList<HashMap<String, Object>>
-while(rs1.next()){
-	categoryList.add(rs1.getString("category"));
-}
-	
-		
+// 카테고리 리스트를 불러오는 메소드 
+ArrayList<HashMap<String,Object>> categoryList = GoodsDAO.allCategory();
 
 %>
 
@@ -55,9 +40,9 @@ while(rs1.next()){
 		<select name="category" >
 			<option value="">선택</option>
 			<%
-				for(String c : categoryList){
+				for(HashMap<String, Object> c : categoryList){
 			%>
-				<option value="<%=c%>"><%=c%></option>
+				<option value="<%=c.get("category")%>"><%=c.get("category")%></option>
 			<%
 				}
 			%>

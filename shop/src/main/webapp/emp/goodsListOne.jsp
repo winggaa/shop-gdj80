@@ -17,15 +17,19 @@
 <%  // goods_no값 받아오기
 	String goodsNo = request.getParameter("goods_no");
 	//System.out.println(goodsNo +"text no");
+	
 %>
 
 <% 
 	Connection conn =  DBHelper.getConnection();
 	//goods_no에 해당하는 db정보를 가져오는 메소드  
 	ArrayList<HashMap<String,Object>> category = GoodsDAO.category(goodsNo);
+	String img = (String)category.get(0).get("goodsImg");
+	
 	//System.out.println(category.get(0).get("goodsNo") + "어레이리스트에서 2차원배열 값빼오기");
 	//Object smm = category.get(0).get("goodsNo");
-	// System.out.println(category.get(0).get("goodsNo").toString()+"testtest");	
+	// System.out.println(category.get(0).get("goodsNo").toString()+"testtest");
+	
 %>
 
 
@@ -37,19 +41,23 @@
 	
 	//String num = category.get(0).get("goodsNo").toString();
 	String deleteButton = request.getParameter("deleteButton");
-	//System.out.println(category.get(0,));
+	
 	if(deleteButton != null){
-	ResultSet rs2 = null;
-	PreparedStatement stmt2 = null;
-	String sql2 = "DELETE FROM shop.goods WHERE goods_no=?";
-	stmt2 = conn.prepareStatement(sql2);
-	stmt2.setObject(1,category.get(0).get("goodsNo"));
-	System.out.println(stmt2);
-	rs2 = stmt2.executeQuery();
+	
+		System.out.print(img.equals("default.jpg"));
+		
+		
+		// 굿즈번호에 해당하는 굿즈 삭제
+	GoodsDAO.deleteGoods(goodsNo);
+		// img파일의 이름이 default.jpg 라면 삭제되면 안됨
+		if(!img.equals("default.jpg")){
+		//파일경로 받아오기
 	String filePath = request.getServletContext().getRealPath("upload");
+		System.out.println(filePath);
+		// goodsOne에 있는 파일이미지 로컬에서 삭제.
 	File df = new File(filePath,(String)category.get(0).get("goodsImg"));
-	System.out.println(df);
 	df.delete();
+		}
 	response.sendRedirect("/shop/emp/goodsList.jsp");
 	}
 %>

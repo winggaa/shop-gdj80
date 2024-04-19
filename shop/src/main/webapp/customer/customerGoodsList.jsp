@@ -2,6 +2,15 @@
 <%@ page import = "java.sql.*" %>
 <%@ page import = "java.util.*" %>
 
+
+<!--  /customer/goodsList.jsp-->
+<!--  /customer/goodsOne.jsp + commentList-->
+<!--  /customer/orderListByCustomer.jsp-->
+<!--  결제완료(고객결제시) / 배송중(emp처리) / 배송완료(고객) --- 이되면 후기등록 버튼이 활성화.-->
+<!--  insert into orders(mail,goods_no,price) values(`a@a.com`,1,5000)-->
+
+
+
 <% 
 	request.setCharacterEncoding("UTF-8"); 
 	// String insertCategory = request.getParameter("insertCategory"); 아래에 같은 form 에 있어서 null값이 넘어옴 전송되면.

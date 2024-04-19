@@ -232,8 +232,22 @@ public class GoodsDAO {
 			int row = stmt.executeUpdate();
 			return row;	
 		}
+		
+		// parameter(
+		public static int deleteGoods(String goodsNo) throws Exception{
+			Connection conn = DBHelper.getConnection();
+			//String num = category.get(0).get("goodsNo").toString();
+		
+			PreparedStatement stmt2 = null;
+			String sql2 = "DELETE FROM shop.goods WHERE goods_no=?";
+			stmt2 = conn.prepareStatement(sql2);
+			stmt2.setObject(1,goodsNo);
+			System.out.println(stmt2);
+			int row = stmt2.executeUpdate();
+			return row;
 			
-			
+			}
+		 
 		
 }
 		
