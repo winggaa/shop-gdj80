@@ -14,10 +14,9 @@
 }
 %>
 
-<%  
-	// goods_no값 받아오기
-	String goodsNo = request.getParameter("goods_no");
-	//System.out.println(goodsNo +"text no");
+<%  // goods_no값 받아오기
+	String goodsNo = request.getParameter("goodsNo");
+	String goodsContent = request.getParameter("goodsContent");
 	
 %>
 
@@ -25,7 +24,10 @@
 	Connection conn =  DBHelper.getConnection();
 	//goods_no에 해당하는 db정보를 가져오는 메소드  
 	ArrayList<HashMap<String,Object>> category = GoodsDAO.category(goodsNo);
-	String img = (String)category.get(0).get("goodsImg");
+	System.out.println(category);
+	
+	
+	//String img = (String)category.get(0).get("goodsImg");
 	
 	//System.out.println(category.get(0).get("goodsNo") + "어레이리스트에서 2차원배열 값빼오기");
 	//Object smm = category.get(0).get("goodsNo");
@@ -41,6 +43,7 @@
 	
 	
 	//String num = category.get(0).get("goodsNo").toString();
+	/*
 	String deleteButton = request.getParameter("deleteButton");
 	
 	if(deleteButton != null){
@@ -61,6 +64,7 @@
 		}
 	response.sendRedirect("/shop/emp/goodsList.jsp");
 	}
+	*/
 %>
 
 
@@ -91,24 +95,33 @@ for(HashMap sm : category){
 
 <tr>
 <th class="table-active">상품코드</th>
-<td style="width: 300px;"><%=goodsNo%></td>
+<td style="width: 300px;">
+<%=goodsNo%>
+</td>
 <th class="table-active">상품이름</th>
-<td><%=(String)(sm.get("goodsTitle"))%></td>
+<td>
+<input style="height: 50px" type="text" value="<%=(String)(sm.get("goodsTitle"))%>">
+</td>
 <th class="table-active">상품카테고리</th>
-<td><%=(String)(sm.get("goodsCategory"))%></td>
+<td>
+<input style="height: 50px" type="text" value="<%=(String)(sm.get("goodsCategory"))%>">
+</td>
 <th class="table-active">상품재고</th>
-<td><%=(String)(sm.get("goodsAmount"))%></td>
-
+<td>
+<input style="height: 50px" type="text" value="<%=(String)(sm.get("goodsAmount"))%>">
+</td>
 </tr>
 
 <tr>
 <th class="table-active">상품이미지</th>
-
-  
 <td style = "padding: 0px"><img src="/shop/upload/<%=(String) (sm.get("goodsImg"))%>"  style="width: 300px ; height: 300px; " ></td>
 
 <th class="table-active">상품내용</th>
-<td colspan="5" style="width: 500px;" ><%=(String)(sm.get("goodsContent"))%></td>
+<td colspan="5" style="width: 500px;" >
+<textarea rows="10" cols="75">
+<%=(String)(sm.get("goodsContent"))%>
+</textarea>
+</td>
 </tr>
 
 <tr>
@@ -151,46 +164,11 @@ for(HashMap sm : category){
 	    </div>
 	  </div>
 	</div>
-	
-</form>
 
-
-<form action="/shop/emp/updateGoods.jsp">
-<input type="hidden" value="<%=goodsNo%>" name="goodsNo">
-<button type="submit">전송테스트</button>
 </form>
 
 
 </div>	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 </body>
 </html>

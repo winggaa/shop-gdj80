@@ -79,7 +79,7 @@
 	
 	<h1 style="text-align: center">캐러셀 상품 홍보 자리</h1>
 	<div class="container" style="width:1500px;height: 300px;">
-	<div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+	<div id="carouselExampleSlidesOnly" class="carousel slide mb-5" data-bs-ride="carousel">
 		  <div class="carousel-inner">
 		   <div class="carousel-item active">
       		<img src="/shop/upload/default.jpg" class="d-block w-100"  style="height: 300px;">
@@ -88,8 +88,8 @@
 		  <% 
 		for(HashMap<String,Object> sm :goodsList){
 		%>
-		    <div class="carousel-item">
-		      <img src="/shop/upload/<%=(String) (sm.get("goodsImg"))%>" class="d-block w-100 " style="width:1000px;height: 300px;	">
+		    <div class="carousel-item ">
+		      <img src="/shop/upload/<%=(String) (sm.get("goodsImg"))%>" class="d-block w-100 " style="width:1000px;height: 300px;">
 		   </div>
 		  <%} %> 
 		     
@@ -97,33 +97,14 @@
 		</div>
 	</div>
 	
-	<div>
-		<a href="/shop/emp/addGoodsForm.jsp">상품등록</a>
-	</div>
+	
 	<form action="/shop/emp/goodsList.jsp" >
-		<div class="row">
-		<div class="col-2" style="background-color:#E8D9FF;">
-		<h2>이벤트 팝업 자리 ?</h2>
-		
-		</div>
-		<div class="col" style="background-color:#CEFBC9 ">
-			<div>
-				<a href="/shop/emp/goodsList.jsp">전체</a>
-				<% 
-					for(HashMap m :categoryList){
-				%>
-					<a href="/shop/emp/goodsList.jsp?category=<%=(String)(m.get("category"))%>">
-						<%=(String) (m.get("category"))%>
-						(<%=(Integer) (m.get("cnt"))%>)
-					</a>
-					
-				<%
-					}
-				%>
-				
-				
-				<!-- Button trigger modal -->
-					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+		<div class="row mt-5">
+			<div class="col-2" style="background-color:#E8D9FF;">
+			
+			
+			
+			<button type="button" class="btn btn-primary mt-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
 					  카테고리 추가
 					</button>
 					
@@ -153,7 +134,9 @@
 					
 				<!-- --------------------------------------------------- -->
 				<!-- Button trigger modal -->
-					<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteModal">
+	
+  
+					<button type="button" class="btn btn-primary mt-5" data-bs-toggle="modal" data-bs-target="#deleteModal">
 					  카테고리 삭제
 					</button>
 					
@@ -206,7 +189,43 @@
 					%>
 					
 					</form>
-					
+			
+						
+			
+			<!-- //////////////////////////////// -->
+			<ul class="nav flex-column">
+			<li class="nav-item">
+			<a class="nav-link active" href="/shop/emp/goodsList.jsp">전체보기</a>
+			</li>
+			<% for(HashMap m : categoryList){
+				
+			
+			%>
+			  <li class="nav-item">
+			  <a class ="nav-link active" href="/shop/emp/goodsList.jsp?category=<%=(String)(m.get("category"))%>">
+						<%=(String) (m.get("category"))%>
+						(<%=(Integer) (m.get("cnt"))%>)
+					</a>
+			  </li>
+			<%
+			 }			  
+			%>
+			</ul>
+			
+			
+			  
+			
+		
+			
+			
+			</div>
+		<div class="col" style="background-color:#CEFBC9 ">
+			<div>
+				
+		
+				
+				
+									
 				<!-- --------------------------------------------------- -->
 				
 				

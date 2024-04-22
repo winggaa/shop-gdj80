@@ -20,7 +20,7 @@ public class GoodsDAO {
 		PreparedStatement stmt2 = null;
 		String sql2 = null;
 		//System.out.println(category);
-			if(category == null){
+			if(category == null || category.equals("null")){
 			sql2 = "select * from goods where goods_title like ? limit ? , ?";
 			stmt2 = conn.prepareStatement(sql2);
 			stmt2.setString(1,"%"+searchWord+"%");
@@ -110,7 +110,7 @@ public class GoodsDAO {
 			ResultSet rs = null;
 			PreparedStatement stmt = null; 
 			
-			if(category == null) {
+			if(category == null || category.equals("null")) {
 				String sql = "SELECT category, COUNT(*) cnt FROM goods GROUP BY category ORDER BY category ASC";
 				stmt  = conn.prepareStatement(sql);
 				rs = stmt.executeQuery();

@@ -49,10 +49,8 @@
 </head>
 <body class="container-fluid">
 	<div>
-	네비바 자리
 	<!-- empMenu.jsp include : 주체(서버) vs redirect(주체:클라이언트)-->
 	<!-- 주체가 서버이기때문에 include할때는 절대주소가 /shop/... 시작하지 않는다.... -->
-	
 	<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 	</div>
 	
@@ -61,26 +59,27 @@
 	sidebar 자리
 	</div>
 	<div class="col bg-white border shadow p-3 bg-body-tertiary rounded">
-	<h1>사원 목록</h1>
-	<a href="/shop/emp/empLogout.jsp">로그아웃</a>
-	<form action ="/emp/modifyEmpActive.jsp" >
-	<table border="1">
+		<div style="align-content: center">
+		<h1 style="margin-left: 50px">사원 목록</h1>
+		</div>
+		
+		<form action ="/emp/modifyEmpActive.jsp" >
+		<table border="1" style="width:1000px; margin-left: 50px; align-content: center" >
+		
 	
 	
-	
-	<tr>
-		<th>empId	</th>
-		<th>empName	</th>
-		<th>empJob	</th>
-		<th>hireDate</th>
-		<th>active	</th>
-		<th>		</th>
-	</tr>
+		<tr>
+			<th>empId	</th>
+			<th>empName	</th>
+			<th>empJob	</th>
+			<th>hireDate</th>
+			<th>active	</th>
+			<th>		</th>
+		</tr>
 	<%
 	for(HashMap<String, Object> m : list) {
 		
 	%>
-	
 			<tr>
 				<td><%=(String) (m.get("empId"))%></td>
 				<td><%=(String) (m.get("empName"))%></td>
@@ -109,43 +108,57 @@
 	%>
 	</table>
 	</form>
-			
-			<ul class="pagination justify-content-center">
-
+			<nav aria-label="Page navigation example">
+			<ul class="pagination">
+				<li>
+				<a class="page-link" href="/shop/emp/empList.jsp?currentPage=1" aria-label="Previous" style="margin-left: 320px">
+	        	<span aria-hidden="true">&laquo;</span>
+	      		</a>
+				</li>
 						<%
 							if(currentPage > 1) {
 						%>
-								<li>
-									<a href="/shop/emp/empList.jsp?currentPage=1" >처음페이지</a>
+								<li class="page-item">
+									<a class="page-link" href="/shop/emp/empList.jsp?currentPage=1" >처음페이지</a>
 								</li>
-								<li>
-									<a href="/shop/emp/empList.jsp?currentPage=<%=currentPage-1%>">이전페이지</a>
+								<li class="page-item">
+									<a class="page-link" href="/shop/emp/empList.jsp?currentPage=<%=currentPage-1%>">이전페이지</a>
 								</li>
 						<%		
 							} else {
 						%>
-								<li>
-									<a href="/shop/emp/empList.jsp?currentPage=1">처음페이지</a>
+								<li class="page-item">
+									<a class="page-link disabled" href="/shop/emp/empList.jsp?currentPage=1">처음페이지</a>
 								</li>
-								<li>
-									<a href="/shop/emp/empList.jsp?currentPage=<%=currentPage-1%>">이전페이지</a>
+								<li class="page-item">
+									<a class="page-link" href="/shop/emp/empList.jsp?currentPage=<%=currentPage-1%>">이전페이지</a>
 								</li>
 						<%		
 							}
 						
 							if(currentPage < lastPage) {
 						%>
-								<li>
-									<a href="/shop/emp/empList.jsp?currentPage=<%=currentPage+1%>">다음페이지</a>
+								<li class="page-item">
+									<a class="page-link" href="/shop/emp/empList.jsp?currentPage=<%=currentPage+1%>">다음페이지</a>
 								</li>
-								<li>
-									<a href="/shop/emp/empList.jsp?currentPage=<%=lastPage%>">마지막페이지</a>
+								<li class="page-item">
+									<a class="page-link" href="/shop/emp/empList.jsp?currentPage=<%=lastPage%>">마지막페이지</a>
 								</li>
 						<%		
 							}
 						%>
+						<li>
+						<a class="page-link" href="/shop/emp/empList.jsp?currentPage=<%=lastPage%>" aria-label="Next">
+        				<span aria-hidden="true">&raquo;</span>
+      					</a>
+      					</li>
 					</ul>			
+				</nav>
 				
+	
+  
+      
+    
 			
 		</div>
 	</div>

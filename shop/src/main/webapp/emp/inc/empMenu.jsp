@@ -22,5 +22,7 @@
 			<%=(String) (loginMember.get("empName"))%>
 		</a>
 	
+		<a class="nav-link active bg-text" href="/shop/emp/empLogout.jsp">로그아웃</a>
+		<a class="nav-link active bg-text" href="/shop/emp/addGoodsForm.jsp">상품등록</a>
 	</nav>
 </div>
