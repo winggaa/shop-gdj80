@@ -1,3 +1,4 @@
+<%@page import="oracle.jdbc.proxy.annotation.Pre"%>
 <%@page import="shop.dao.GoodsDAO"%>
 <%@page import="shop.dao.DBHelper"%>
 <%@page import="org.apache.catalina.ha.backend.Sender"%>
@@ -15,26 +16,58 @@
 %>
 
 <%  // goods_no값 받아오기
-	String goodsNo = request.getParameter("goodsNo");
-	String goodsContent = request.getParameter("goodsContent");
-	
+	int goodsNo = Integer.parseInt(request.getParameter("goodsNo"));
+	String update = request.getParameter("update");
+	// 카테고리 선택 리스트 불러오기 위한 메소드
+	ArrayList<HashMap<String,Object>> allCategory = GoodsDAO.allCategory();
 %>
 
 <% 
 	Connection conn =  DBHelper.getConnection();
 	//goods_no에 해당하는 db정보를 가져오는 메소드  
 	ArrayList<HashMap<String,Object>> category = GoodsDAO.category(goodsNo);
-	System.out.println(category);
+	//System.out.println(category);
+	String img = (String)category.get(0).get("goodsImg");
+	String goodsTitle = request.getParameter("goodsTitle");
+	String goodsContent = request.getParameter("goodsContent");
+	String goodsCategory = request.getParameter("goodsCategory");
 	
-	
-	//String img = (String)category.get(0).get("goodsImg");
-	
-	//System.out.println(category.get(0).get("goodsNo") + "어레이리스트에서 2차원배열 값빼오기");
-	//Object smm = category.get(0).get("goodsNo");
-	// System.out.println(category.get(0).get("goodsNo").toString()+"testtest");
+	int goodsAmount = 0;
+	int goodsPrice = 0;
+	if(request.getParameter("goodsAmount") != null){
+	goodsAmount = Integer.parseInt (request.getParameter("goodsAmount"));
+	}
+	if(request.getParameter("goodsPrice") != null){
+	goodsPrice = Integer.parseInt  (request.getParameter("goodsPrice"));
+	}
+	//int goodsPrice =  (Integer)category.get(0).get("goodsPrice");
+	//int goodsAmount = (Integer)category.get(0).get("goodsAmount");
+	//int goodsAmount = Integer.parseInt((String.valueOf(category.get(0).get("goodsAmount"))));
+	//int goodsPrice = Integer.parseInt((String.valueOf(category.get(0).get("goodsPrice"))));
+	//System.out.println(request.getParameter("update") +"<<<update?");
+	//System.out.println(goodsTitle+"<<goodsTitle" + goodsContent +"<< goodsContent" + goodsAmount +"<< goodsAmount" + goodsPrice +"<<goodsPrice");
 	
 %>
 
+<%
+	/* 업데이트 쿼리문 */
+	if( update != null){
+		//System.out.println("update null text");
+	String sql = "UPDATE goods SET goods_title = ? , goods_content = ? , goods_price = ? , goods_amount = ? , category = ? , update_date = CURRENT_TIME WHERE goods_no = ? ";
+	PreparedStatement stmt = conn.prepareStatement(sql);
+	stmt.setString(1, goodsTitle);
+	stmt.setString(2, goodsContent);
+	stmt.setInt(3, goodsPrice);
+	stmt.setInt(4, goodsAmount);
+	stmt.setString(5, goodsCategory);
+	stmt.setInt(6, goodsNo);
+	int row = stmt.executeUpdate();
+	System.out.println(row);
+	
+	
+	response.sendRedirect("/shop/emp/goodsListOne.jsp?goods_no="+goodsNo);
+	}
+%>
 
 <%
 	
@@ -43,7 +76,7 @@
 	
 	
 	//String num = category.get(0).get("goodsNo").toString();
-	/*
+	
 	String deleteButton = request.getParameter("deleteButton");
 	
 	if(deleteButton != null){
@@ -64,7 +97,7 @@
 		}
 	response.sendRedirect("/shop/emp/goodsList.jsp");
 	}
-	*/
+	
 %>
 
 
@@ -84,7 +117,7 @@
 	<div>
 	<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 	</div>
-
+<form action="/shop/emp/updateGoods.jsp?goodsNo="<%=goodsNo%>>
 <div class="container" style="margin-top:150px; ">
 <table class="table border-top">
 
@@ -97,28 +130,40 @@ for(HashMap sm : category){
 <th class="table-active">상품코드</th>
 <td style="width: 300px;">
 <%=goodsNo%>
+<input type="hidden" value="<%=(int)(sm.get("goodsNo"))%>" name="goodsNo">
 </td>
 <th class="table-active">상품이름</th>
 <td>
-<input style="height: 50px" type="text" value="<%=(String)(sm.get("goodsTitle"))%>">
+<input style="height: 50px" type="text" value="<%=(String)(sm.get("goodsTitle"))%>" name="goodsTitle">
 </td>
 <th class="table-active">상품카테고리</th>
 <td>
-<input style="height: 50px" type="text" value="<%=(String)(sm.get("goodsCategory"))%>">
+<select name="goodsCategory" style="margin-top: 15px">
+							<option value="기타">선택</option>
+							
+							<%
+								for(HashMap am : allCategory){
+									
+							%>
+								<option value="<%=(String) (am.get("category"))%>"><%=(String) (am.get("category"))%></option>
+							<%
+								}
+							%>
+</select>
 </td>
 <th class="table-active">상품재고</th>
 <td>
-<input style="height: 50px" type="text" value="<%=(String)(sm.get("goodsAmount"))%>">
+<input style="height: 50px" type="text" value="<%=(String)(sm.get("goodsAmount"))%>" name = "goodsAmount">
 </td>
 </tr>
 
 <tr>
 <th class="table-active">상품이미지</th>
-<td style = "padding: 0px"><img src="/shop/upload/<%=(String) (sm.get("goodsImg"))%>"  style="width: 300px ; height: 300px; " ></td>
+<td style = "padding: 0px"><img src="/shop/upload/<%=(String) (sm.get("goodsImg"))%>"  style="width: 300px ; height: 300px;" ></td>
 
 <th class="table-active">상품내용</th>
 <td colspan="5" style="width: 500px;" >
-<textarea rows="10" cols="75">
+<textarea rows="10" cols="75" name="goodsContent">
 <%=(String)(sm.get("goodsContent"))%>
 </textarea>
 </td>
@@ -133,33 +178,45 @@ for(HashMap sm : category){
 
 </tr>
 
+<tr>
+<th class="table-active">상품가격</th>
+<td>
+<input style="height: 50px" type="text" value="<%=(String)(sm.get("goodsPrice"))%>" name = "goodsPrice">
+</td> 
+</tr>
+
 <% 
 }
 %>
 	</table>
+	
+	
 	<!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteGoods">
-  삭제하기
-</button>
+
+	
+	
+
+	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#update">
+  	수정하기
+	</button>
 
 <!-- Modal -->
-<form action="/shop/emp/goodsListOne.jsp">
 
-	<div class="modal fade" id="deleteGoods" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+	<div class="modal fade" id="update" tabindex="-1" aria-labelledby="update" aria-hidden="true">
 	  <div class="modal-dialog">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h1 class="modal-title fs-5" id="exampleModalLabel">삭제하기</h1>
+	        <h1 class="modal-title fs-5" id="update">수정하기</h1>
 	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 	      </div>
 	      <div class="modal-body">
-	       삭제한후 되돌릴수없습니다. 정말로 삭제하시겠습니까?
+	       수정하시겠습니까? (카테고리를 선택하지 않으면 자동적으로 기타로 분류됩니다.)
 	      </div>
 	      <div class="modal-footer">
-	      	<input type="hidden" name="deleteButton" value="delete">
-	      	<input type="hidden" name="goods_no" value="<%=goodsNo%>">
+	      	<input type="hidden" name="update" value="update">
 	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소하기</button>
-	        <button type="submit" class="btn btn-primary">삭제하기</button>
+	        <button type="submit" class="btn btn-primary">수정하기</button>
 	      </div>
 	    </div>
 	  </div>

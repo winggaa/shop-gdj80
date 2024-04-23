@@ -16,7 +16,7 @@
 
 <%  
 	// goods_no값 받아오기
-	String goodsNo = request.getParameter("goods_no");
+	int goodsNo = Integer.parseInt(request.getParameter("goods_no"));
 	//System.out.println(goodsNo +"text no");
 	
 %>
@@ -120,17 +120,29 @@ for(HashMap sm : category){
 
 </tr>
 
+<tr>
+<th class="table-active">상품가격</th>
+<td><%=(String) (sm.get("goodsPrice")) %></td> 
+</tr>
+
 <% 
 }
 %>
 	</table>
 	<!-- Button trigger modal -->
+	<div>
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteGoods">
   삭제하기
 </button>
+	
+		<a href ="/shop/emp/updateGoods.jsp?goodsNo=<%=goodsNo%>">
+		<button type="button" class="btn btn-primary" data-bs-toggle="modal">
+		수정하기
+		</button>
+		</a>
 
 <!-- Modal -->
-<form action="/shop/emp/goodsListOne.jsp">
+<form action="/shop/emp/goodsListOne.jsp" style="margin:0;padding: 0;">
 
 	<div class="modal fade" id="deleteGoods" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	  <div class="modal-dialog">
@@ -151,15 +163,17 @@ for(HashMap sm : category){
 	    </div>
 	  </div>
 	</div>
-	
 </form>
 
 
-<form action="/shop/emp/updateGoods.jsp">
-<input type="hidden" value="<%=goodsNo%>" name="goodsNo">
-<button type="submit">전송테스트</button>
-</form>
 
+
+
+
+
+
+</form>
+</div>
 
 </div>	
 	

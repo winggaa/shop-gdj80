@@ -186,14 +186,14 @@ public class GoodsDAO {
 		// /emp/goodsListOne.jsp
 		// return : ArrayList<HashMap<String, Object>> category
 		
-		public static ArrayList<HashMap<String,Object>> category(String goodsNo) throws Exception{
+		public static ArrayList<HashMap<String,Object>> category(int goodsNo) throws Exception{
 			// 데이터베이스 값 받아서 hashMap에 넣기
 			Connection conn = DBHelper.getConnection();
 			ResultSet rs1 = null;
 			PreparedStatement stmt1 = null; 
 			String sql1 = "select * from goods where goods_no = ?";
 			stmt1 = conn.prepareStatement(sql1);
-			stmt1.setString(1,goodsNo);
+			stmt1.setInt(1,goodsNo);
 			rs1 = stmt1.executeQuery();
 
 			ArrayList<HashMap<String,Object>> category = new ArrayList<HashMap<String,Object>>() ;
@@ -234,7 +234,7 @@ public class GoodsDAO {
 		}
 		
 		// parameter(
-		public static int deleteGoods(String goodsNo) throws Exception{
+		public static int deleteGoods(int goodsNo) throws Exception{
 			Connection conn = DBHelper.getConnection();
 			//String num = category.get(0).get("goodsNo").toString();
 		

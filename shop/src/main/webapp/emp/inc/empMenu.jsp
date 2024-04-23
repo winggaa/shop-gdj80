@@ -3,6 +3,7 @@
 <%@ page import = "java.sql.*" %>
 <%
 	HashMap<String,Object> loginMember = (HashMap<String,Object>) (session.getAttribute("loginEmp"));
+	//System.out.println(loginMember);
 %>
 
 

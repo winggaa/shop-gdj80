@@ -55,7 +55,7 @@
 	</div>
 	
 	<div class= "row">
-	<div class="col-2 text-bg-primary p-3">
+	<div class="col-2 text-bg-success p-3">
 	sidebar 자리
 	</div>
 	<div class="col bg-white border shadow p-3 bg-body-tertiary rounded">
