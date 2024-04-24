@@ -21,11 +21,11 @@
 
 
 <form method="post" action="/shop/customer/loginAction.jsp">
-로그인아이디<input type="text" name="csId">
-패스워드<input type="password" name="csPw">
+로그인아이디
+<input type="text" name="csId">
+패스워드
+<input type="password" name="csPw">
 <button type="submit">로그인</button>
-
-
 <a href="/shop/customer/addCustomerForm.jsp">회원가입</a>
 </form>
 </body>

@@ -22,7 +22,7 @@ public class EmpDAO {
 	
 	// HashMap<String , object> : null이면 로그인실패, 아니면성공
 	// String empId, String empPw : 로그인폼에서 사용자가 입력한 id/pw
-	
+	//	empLoginAction.jsp
 	// 호출코드 HashMap<String, Object> m = EmpDAO.empLogin ("admin", "1234")
 	public static HashMap<String,Object> empLogin (String empId , String empPw ) throws Exception{
 						
@@ -52,7 +52,11 @@ public class EmpDAO {
 		conn.close();
 		return resultMap;
 	}
-		
+		// emp 리스트에 출력할 직원리스트 가져오기 
+		// empList.jsp 
+		// startRow == db검색 시작행 //rowPerPage == 출력할 행의개수	
+		// parameter int startRow, rowPerPage
+		// return ArrayList<HashMap<String, Object>> list
 		public static ArrayList<HashMap<String,Object>> selectEmpsList (int startRow, int rowPerPage) throws Exception{
 		
 		
@@ -88,7 +92,11 @@ public class EmpDAO {
 		conn.close();
 		return list;	
 	}
-	
+		// empList.jsp
+		// 직원리스트 페이지의 총칼럼개수 구하기위함 
+		// parameter : rowPerPage -- 표현할 직원수 
+		// return: int lastPage
+		
 	public static int row (int rowPerPage) throws Exception {
 		int totalRow = 0;
 		Connection conn = DBHelper.getConnection();
@@ -127,8 +135,33 @@ public class EmpDAO {
 		stmt1.setString(2,empId );
 		rs1 = stmt1.executeQuery();
 	}
-			
 		
+		// empOne.jsp
+		// empOne의 리스트값 가져오기
+		// parameter : 세션에있는 id값.
+		// return: ArrayList<HashMap<String,Object>> list
+		
+		public static ArrayList<HashMap<String,Object>> empOneList(String loginId) throws Exception{
+			Connection conn = DBHelper.getConnection();
+			String sql = "SELECT emp_id , emp_name , emp_job , hire_date , create_date, update_date FROM emp WHERE emp_id = ?";
+			PreparedStatement stmt = conn.prepareStatement(sql);
+			stmt.setString(1,loginId);
+			System.out.println(stmt);
+			ResultSet rs = stmt.executeQuery();
+			ArrayList<HashMap<String,Object>> list = new ArrayList<HashMap<String,Object>>();
+			
+				HashMap<String,Object> e = new HashMap<String,Object>() ;
+				while(rs.next()){
+				e.put("empId",rs.getString("emp_id"));
+				e.put("empName",rs.getString("emp_name"));
+				e.put("hireDate",rs.getString("hire_date"));
+				e.put("empJob",rs.getString("emp_job"));
+				e.put("createDate",rs.getString("create_date"));
+				e.put("updateDate",rs.getString("update_date"));
+				list.add(e);
+				}
+				return list;
+		}
 		
 	
 	

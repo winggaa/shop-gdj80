@@ -26,6 +26,7 @@
 	//페이징용 함수 선언
 	int rowPerPage  = 30;
 	int currentPage = 1;
+	// currentPage가 다음페이지를 눌러서 +이되면 값을 받아오고 startRow값을 곱해야함
 	if(request.getParameter("currentPage") != null){
 		currentPage = Integer.parseInt(request.getParameter("currentPage"));
 	}

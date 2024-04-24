@@ -50,20 +50,13 @@
 %>
 
 <%
-	/* 업데이트 쿼리문 */
+	/* 업데이트 쿼리문 */ 
+	// 수정하기 버튼을 누르면 update 에 값이 들어옴. 
 	if( update != null){
-		//System.out.println("update null text");
-	String sql = "UPDATE goods SET goods_title = ? , goods_content = ? , goods_price = ? , goods_amount = ? , category = ? , update_date = CURRENT_TIME WHERE goods_no = ? ";
-	PreparedStatement stmt = conn.prepareStatement(sql);
-	stmt.setString(1, goodsTitle);
-	stmt.setString(2, goodsContent);
-	stmt.setInt(3, goodsPrice);
-	stmt.setInt(4, goodsAmount);
-	stmt.setString(5, goodsCategory);
-	stmt.setInt(6, goodsNo);
-	int row = stmt.executeUpdate();
-	System.out.println(row);
-	
+		// 굿즈정보수정 하는 쿼리 성공시 1 실패시 0 반환받음.
+	int row	 = GoodsDAO.updateGoods(goodsTitle, goodsContent, goodsPrice, goodsAmount, goodsCategory, goodsNo);
+		
+		//	System.out.println(row);
 	
 	response.sendRedirect("/shop/emp/goodsListOne.jsp?goods_no="+goodsNo);
 	}

@@ -14,7 +14,7 @@ String csPw = request.getParameter("csPw");
 String gender = request.getParameter("gender");
 String birth = request.getParameter("birth");
 
-System.out.println(gender);
+//System.out.println(gender);
 
 
 Connection conn = DBHelper.getConnection();

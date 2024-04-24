@@ -8,6 +8,29 @@ import org.apache.catalina.ha.backend.Sender;
 
 public class GoodsDAO {
 	
+		// updateGoods.jsp
+		// 굿즈정보수정 update 성공시 1 , 실패시 0 반환
+		//	int startRow // 페이징 값  , int rowPerPage // 출력할 개수 	
+		// parameter : String category // 카테고리 분류 , String searchWord // 검색값
+		// return : int row;
+	
+	public static int updateGoods(String goodsTitle,String goodsContent,int goodsPrice , int goodsAmount , String goodsCategory , int goodsNo) throws Exception{
+		
+		Connection conn =  DBHelper.getConnection();
+		String sql = "UPDATE goods SET goods_title = ? , goods_content = ? , goods_price = ? , goods_amount = ? , category = ? , update_date = CURRENT_TIME WHERE goods_no = ? ";
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1, goodsTitle);
+		stmt.setString(2, goodsContent);
+		stmt.setInt(3, goodsPrice);
+		stmt.setInt(4, goodsAmount);
+		stmt.setString(5, goodsCategory);
+		stmt.setInt(6, goodsNo);
+		int row = stmt.executeUpdate();
+		
+		return row;
+	}
+	
+	
 	// 출력할 db 데이터값 호출
 	// 
 	// parameter : String category // 카테고리 분류 , String searchWord // 검색값 
@@ -57,6 +80,7 @@ public class GoodsDAO {
 	}	
 	
 		// 카테고리 삽입sql 실행용  
+		// goodsList.jsp
 		// parameter : (String insertCategory) 추가기능요청용 코드.
 		// return : void
 	
@@ -78,6 +102,7 @@ public class GoodsDAO {
 			}
 		}
 		
+		// goodsListOne.jsp , updateGoods.jsp
 		// 카테고리 삭제sql 실행용  
 		// parameter : (String deleteCategory) 삭제기능요청용 코드.
 		// return : void
@@ -157,7 +182,7 @@ public class GoodsDAO {
 		}
 		
 		// 카테고리 추가를했을때 goods에 데이터가 입력되지않으면 category에는 존재하지만 goods에는 존재하지않아 category에서 카테고리를 불러와야함 
-		// /emp/goodsList.jsp
+		// /emp/goodsList.jsp , updateGoods.jsp , addGoodsForm.jsp
 		// return : ArrayList<HashMap<String, Object>> allCategory
 		
 		public static ArrayList<HashMap<String,Object>> allCategory() throws Exception {
@@ -183,7 +208,7 @@ public class GoodsDAO {
 		}
 		
 		// 카테고리 상세보기를 할때 불러올 정보를 위한 테이블 
-		// /emp/goodsListOne.jsp
+		// /emp/goodsListOne.jsp , updateGoods.jsp 
 		// return : ArrayList<HashMap<String, Object>> category
 		
 		public static ArrayList<HashMap<String,Object>> category(int goodsNo) throws Exception{
@@ -214,9 +239,9 @@ public class GoodsDAO {
 			}
 			return category;
 		}
-		
-		
-		
+		// addGoodsAction.jsp
+		// parameter-content : 굿즈테이블에 있는 모든정보 날짜는 현재시간으로 자동으로 입력 단 create_date 는 원래있던값받아와야함.
+		// parameter (String category ,String empId ,String goodsTitle,String filename,String goodsContent, int goodsPrice , int goodsAmount)
 		public static int addGoods(String category ,String empId ,String goodsTitle,String filename,String goodsContent, int goodsPrice , int goodsAmount) throws Exception {
 			Connection conn = DBHelper.getConnection();
 			
@@ -232,8 +257,10 @@ public class GoodsDAO {
 			int row = stmt.executeUpdate();
 			return row;	
 		}
-		
-		// parameter(
+		// 굿즈 삭제
+		// update.jsp , goodsListOne ,updateGoods.jsp?
+		// parameter int goodsNo 굿즈번호
+		// return : int row // 성공시 1 실패시 0
 		public static int deleteGoods(int goodsNo) throws Exception{
 			Connection conn = DBHelper.getConnection();
 			//String num = category.get(0).get("goodsNo").toString();

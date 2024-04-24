@@ -1,3 +1,4 @@
+<%@page import="shop.dao.EmpDAO"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="shop.dao.DBHelper"%>
@@ -15,16 +16,10 @@
 <%     
     HashMap<String,Object> loginMember = (HashMap<String,Object>) (session.getAttribute("loginEmp"));
 	String loginId =(String)(loginMember.get("empId"));
-	System.out.println(loginId);
-	Connection conn = DBHelper.getConnection();
-	
-	String sql = "SELECT emp_id , emp_name , emp_job , hire_date , create_date, update_date FROM emp WHERE emp_id = ?";
-	PreparedStatement stmt = conn.prepareStatement(sql);
-	stmt.setString(1,loginId);
-	System.out.println(stmt);
-	ResultSet rs = stmt.executeQuery();
-	
-
+		//System.out.println(loginId);
+		
+		// empOne 목록 불러오는 메소드
+	ArrayList<HashMap<String,Object>> list = EmpDAO.empOneList(loginId);
 %>
 <!DOCTYPE html>
 <html>
@@ -44,38 +39,47 @@
 <div class="container" style="margin-top:150px; ">
 <h1>직원정보</h1>
 <table class="table border-top">
-<% while(rs.next()) {%>
+<% for(HashMap m : list){%>
 
 <tr>
-<th class="table-active">Id</th>
-<td style="width: 300px;"><%=rs.getString("emp_id") %></td>
-<th class="table-active">이름</th>
-<td><%=rs.getString("emp_name")%></td>
+<th class="table-active" style="width: 100px">Id</th>
+<td style="width: 300px;"><%=m.get("empId")%></td>
+<th class="table-active" style="width: 100px">이름</th>
+<td style="width: 300px;"><%=m.get("empName")%></td>
 </tr>
 
 <tr>
 
 <th class="table-active">부서</th>
-<td><%=rs.getString("emp_job")%></td>
-<th class="table-active">고용일</th>
-<td><%=rs.getString("hire_date")%></td>
+<td><%=m.get("empJob")%></td>
+<th class="table-active">입사일</th>
+<td><%=m.get("hireDate")%></td>
 </tr>
 
 <tr>
 <th class="table-active">
 가입날짜
 </th>
-<td ><%=rs.getString("create_date")%></td>
+<td ><%=m.get("createDate")%></td>
 <th class="table-active">
 마지막 수정날짜
 </th>
 <td >
-<%=rs.getString("update_date")%>
+<%=m.get("updateDate")%>
 </td>
 </tr>
 <%} %>
 </table>
-</div>
+
+
+<form action="/shop/emp/goodsList.jsp" >
+		
+			
+			
+																							<!-- data-bs-target: id가 deleteId인 요소지정 -->
+			
+</div>	
+
 
 </body>
 </html>
