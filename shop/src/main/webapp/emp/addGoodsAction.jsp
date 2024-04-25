@@ -35,7 +35,7 @@
 	String exe = null;
 	int dotIdx = originalName.lastIndexOf(".");
 	
-	
+	// 확장자를 가져오지 않으면 널포인트 오류가뜸. 확장자가 있을때만 실행
 	if(dotIdx != -1){
 	exe = originalName.substring(dotIdx); // .png
 	} 

@@ -26,7 +26,7 @@ public class GoodsDAO {
 		stmt.setString(5, goodsCategory);
 		stmt.setInt(6, goodsNo);
 		int row = stmt.executeUpdate();
-		
+		conn.close();
 		return row;
 	}
 	
@@ -75,7 +75,7 @@ public class GoodsDAO {
 			sm.put("goodsNo",rs2.getString("goods_no"));
 			goodsList.add(sm);
 		}
-
+		conn.close();
 		return goodsList;
 	}	
 	
@@ -97,7 +97,7 @@ public class GoodsDAO {
 			stmt3.setString(1, insertCategory);
 			//System.out.println(stmt3);
 			rs3 = stmt3.executeQuery();
-			
+			conn.close();
 			return ;
 			}
 		}
@@ -121,6 +121,7 @@ public class GoodsDAO {
 			stmt4.setString(1, deleteCategory);
 			rs4 = stmt4.executeQuery();
 			}
+			conn.close();
 		}
 		
 		// 카테고리별로 보기를 선택했을때의 페이징을 위한 행의 개수 
@@ -152,6 +153,7 @@ public class GoodsDAO {
 						}
 			}
 			System.out.println(totalRow +"<<<토탈로우");
+			conn.close();
 			return totalRow;
 			
 		}
@@ -176,6 +178,7 @@ public class GoodsDAO {
 				
 				categoryList.add(m);
 			}
+			conn.close();
 			return categoryList;
 
 	
@@ -204,6 +207,7 @@ public class GoodsDAO {
 				allCategory.add(ac);
 				
 			}
+			conn.close();
 			return allCategory;
 		}
 		
@@ -237,6 +241,7 @@ public class GoodsDAO {
 			category.add(s);
 			
 			}
+			conn.close();
 			return category;
 		}
 		// addGoodsAction.jsp
@@ -255,6 +260,7 @@ public class GoodsDAO {
 			stmt.setInt(6, goodsPrice);
 			stmt.setInt(7, goodsAmount);
 			int row = stmt.executeUpdate();
+			conn.close();
 			return row;	
 		}
 		// 굿즈 삭제
@@ -271,6 +277,7 @@ public class GoodsDAO {
 			stmt2.setObject(1,goodsNo);
 			System.out.println(stmt2);
 			int row = stmt2.executeUpdate();
+			conn.close();
 			return row;
 			
 			}

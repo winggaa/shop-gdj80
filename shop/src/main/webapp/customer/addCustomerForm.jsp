@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +8,7 @@
 </head>
 <body>
 
-<form method="post" action="addCustomerAction.jsp">
+<form method="post" action="/shop/customer/addCustomerAction.jsp">
 이메일
 <input type="email" name="csMail">
 <br>

@@ -46,9 +46,6 @@ public class EmpDAO {
 		} 
 		
 		
-		
-		
-		
 		conn.close();
 		return resultMap;
 	}
@@ -77,6 +74,7 @@ public class EmpDAO {
 		stmt1.setInt(1, startRow);
 		stmt1.setInt(2, rowPerPage);
 		ResultSet rs1 = stmt1.executeQuery();
+		
 		
 		//ResultSet -> ArrayList<HashMap<String, Object>>
 		while(rs1.next()){

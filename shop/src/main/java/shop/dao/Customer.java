@@ -1,9 +1,41 @@
 package shop.dao;
 import java.sql.*;
+import java.util.*;
+
+
 
 
 
 public class Customer {
+	// 로그인 
+	// loginAction.jsp
+	// parameter : String(csId)고객아이디 , String(csPw)고객 비밀번호
+	// return void or int row;
+	public static HashMap<String,Object> csLogin(String csId, String csPw) throws Exception {
+		HashMap<String,Object> loginCs = null;
+		Connection conn = DBHelper.getConnection();
+		String sql = "select * from customer where mail = ? and pw = password(?)";
+		
+		PreparedStatement stmt = conn.prepareStatement(sql);
+		stmt.setString(1 , csId);
+		stmt.setString(2 , csPw);
+		System.out.println(stmt);
+		ResultSet rs = stmt.executeQuery();
+		
+		if(rs.next()){
+			System.out.println("로그인 성공");
+			//하나의 세션변수안에 여러개의 값을 저장하기 위해서 hashmp타입을 사용
+			loginCs = new HashMap<String,Object>();
+			loginCs.put("csId", rs.getString("mail"));
+			loginCs.put("csName", rs.getString("name"));
+			loginCs.put("csGender", rs.getString("gender"));
+			loginCs.put("birth", rs.getString("birth"));
+			
+		}
+		conn.close();
+		return loginCs;
+	}
+	
 
 	// 회원가입 쿼리
 	//checkCustomerKeyAction.jsp
