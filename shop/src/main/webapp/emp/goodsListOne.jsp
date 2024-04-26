@@ -81,130 +81,89 @@
 	<jsp:include page="/emp/inc/empMenu.jsp"></jsp:include>
 	</div>
 
-<div class="container" style="margin-top:150px; ">
-<table class="table border-top">
+	<div class="container" style="margin-top:150px; ">
+		<table class="table border-top">
 
-<%
-for(HashMap sm : category){
+		<%
+		for(HashMap sm : category){
+		
+		%>
+			<tr>
+				<th class="table-active">상품코드</th>
+				<td style="width: 300px;"><%=goodsNo%></td>
+				<th class="table-active">상품이름</th>
+				<td><%=(String)(sm.get("goodsTitle"))%></td>
+				<th class="table-active">상품카테고리</th>
+				<td><%=(String)(sm.get("goodsCategory"))%></td>
+				<th class="table-active">상품재고</th>
+				<td><%=(String)(sm.get("goodsAmount"))%></td>
+			</tr>
+			
+			<tr>
+				<th class="table-active">상품이미지</th>
+				<td style = "padding: 0px">
+				<img src="/shop/upload/<%=(String) (sm.get("goodsImg"))%>"  style="width: 300px ; height: 300px; " >
+				</td>			
+				<th class="table-active">상품내용</th>
+				<td colspan="5" style="width: 500px;" ><%=(String)(sm.get("goodsContent"))%></td>
+			</tr>
+			
+			<tr>
+				<th class="table-active">상품등록날짜</th>
+				<td><%=(String)(sm.get("createDate"))%></td>
+				<th class="table-active">상품수정날짜</th>
+				<td colspan="5"><%=(String)(sm.get("updateDate"))%></td>
+			</tr>
+			
+			<tr>
+				<th class="table-active">상품가격</th>
+				<td><%=(String) (sm.get("goodsPrice")) %></td> 
+			</tr>
+			
+		<% 
+		}
+		%>
+			</table>
+			
 
-%>
+		<div>
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteGoods">
+		  	삭제하기
+			</button>
+	
+			<a href ="/shop/emp/updateGoods.jsp?goodsNo=<%=goodsNo%>">
+				<button type="button" class="btn btn-primary" data-bs-toggle="modal">
+				수정하기
+				</button>
+			</a>
+	
+	
+			<form action="/shop/emp/goodsListOne.jsp" style="margin:0;padding: 0;">
 
-<tr>
-<th class="table-active">상품코드</th>
-<td style="width: 300px;"><%=goodsNo%></td>
-<th class="table-active">상품이름</th>
-<td><%=(String)(sm.get("goodsTitle"))%></td>
-<th class="table-active">상품카테고리</th>
-<td><%=(String)(sm.get("goodsCategory"))%></td>
-<th class="table-active">상품재고</th>
-<td><%=(String)(sm.get("goodsAmount"))%></td>
+				<div class="modal fade" id="deleteGoods" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				  <div class="modal-dialog">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h1 class="modal-title fs-5" id="exampleModalLabel">삭제하기</h1>
+				        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				      </div>
+				      <div class="modal-body">
+				       삭제한후 되돌릴수없습니다. 정말로 삭제하시겠습니까?
+				      </div>
+				      <div class="modal-footer">
+				      	<input type="hidden" name="deleteButton" value="delete">
+				      	<input type="hidden" name="goods_no" value="<%=goodsNo%>">
+				        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소하기</button>
+				        <button type="submit" class="btn btn-primary">삭제하기</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+				
+			</form>
+		</div>
 
-</tr>
+	</div>	
 
-<tr>
-<th class="table-active">상품이미지</th>
-
-  
-<td style = "padding: 0px"><img src="/shop/upload/<%=(String) (sm.get("goodsImg"))%>"  style="width: 300px ; height: 300px; " ></td>
-
-<th class="table-active">상품내용</th>
-<td colspan="5" style="width: 500px;" ><%=(String)(sm.get("goodsContent"))%></td>
-</tr>
-
-<tr>
-
-<th class="table-active">상품등록날짜</th>
-<td><%=(String)(sm.get("createDate"))%></td>
-<th class="table-active">상품수정날짜</th>
-<td colspan="5"><%=(String)(sm.get("updateDate"))%></td>
-
-</tr>
-
-<tr>
-<th class="table-active">상품가격</th>
-<td><%=(String) (sm.get("goodsPrice")) %></td> 
-</tr>
-
-<% 
-}
-%>
-	</table>
-	<!-- Button trigger modal -->
-	<div>
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteGoods">
-  삭제하기
-</button>
-	
-		<a href ="/shop/emp/updateGoods.jsp?goodsNo=<%=goodsNo%>">
-		<button type="button" class="btn btn-primary" data-bs-toggle="modal">
-		수정하기
-		</button>
-		</a>
-
-<!-- Modal -->
-<form action="/shop/emp/goodsListOne.jsp" style="margin:0;padding: 0;">
-
-	<div class="modal fade" id="deleteGoods" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h1 class="modal-title fs-5" id="exampleModalLabel">삭제하기</h1>
-	        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-	      </div>
-	      <div class="modal-body">
-	       삭제한후 되돌릴수없습니다. 정말로 삭제하시겠습니까?
-	      </div>
-	      <div class="modal-footer">
-	      	<input type="hidden" name="deleteButton" value="delete">
-	      	<input type="hidden" name="goods_no" value="<%=goodsNo%>">
-	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소하기</button>
-	        <button type="submit" class="btn btn-primary">삭제하기</button>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-</form>
-
-
-
-
-
-
-
-
-</form>
-</div>
-
-</div>	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 </body>
 </html>

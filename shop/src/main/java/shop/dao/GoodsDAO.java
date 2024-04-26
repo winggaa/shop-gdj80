@@ -42,7 +42,8 @@ public class GoodsDAO {
 	
 		PreparedStatement stmt2 = null;
 		String sql2 = null;
-		//System.out.println(category);
+		
+		System.out.println(category == null);
 			if(category == null || category.equals("null")){
 			sql2 = "select * from goods where goods_title like ? limit ? , ?";
 			stmt2 = conn.prepareStatement(sql2);
@@ -135,7 +136,7 @@ public class GoodsDAO {
 			Connection conn = DBHelper.getConnection();
 			ResultSet rs = null;
 			PreparedStatement stmt = null; 
-			
+			System.out.println(category);
 			if(category == null || category.equals("null")) {
 				String sql = "SELECT category, COUNT(*) cnt FROM goods GROUP BY category ORDER BY category ASC";
 				stmt  = conn.prepareStatement(sql);
@@ -152,7 +153,7 @@ public class GoodsDAO {
 						totalRow = totalRow + rs.getInt("cnt");
 						}
 			}
-			System.out.println(totalRow +"<<<토탈로우");
+			//System.out.println(totalRow +"<<<토탈로우");
 			conn.close();
 			return totalRow;
 			
@@ -230,9 +231,9 @@ public class GoodsDAO {
 			while(rs1.next()){
 			HashMap<String,Object> s = new HashMap<String,Object>();
 			s.put("goodsContent",rs1.getString("goods_content"));
-			s.put("goodsPrice",rs1.getString("goods_price"));
+			s.put("goodsPrice",rs1.getInt("goods_price"));
 			s.put("goodsImg",rs1.getString("filename"));
-			s.put("goodsAmount",rs1.getString("goods_amount"));
+			s.put("goodsAmount",rs1.getInt("goods_amount"));
 			s.put("goodsCategory",rs1.getString("category"));
 			s.put("goodsTitle",rs1.getString("goods_title"));
 			s.put("createDate",rs1.getString("create_date"));

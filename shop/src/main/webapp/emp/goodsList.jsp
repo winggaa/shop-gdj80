@@ -174,7 +174,7 @@
 					  </div>
 					</div>
 					</form>
-					
+					<!-- 검색창 -->
 					<form action="/shop/emp/goodsList.jsp">
 					<input type="text" name="searchWord">
 					 
