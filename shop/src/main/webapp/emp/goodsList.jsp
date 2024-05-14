@@ -48,6 +48,13 @@
 	}
 	// 굿즈 리스트 불러오는 메소드  
 	ArrayList<HashMap<String,Object>> goodsList = GoodsDAO.goodsList(category, searchWord, startRow, rowPerPage);
+	
+/* 	SELECT g.category, COUNT(*) AS cnt, c.category
+	FROM goods g
+	right outer JOIN category c ON g.category = c.category
+	GROUP BY g.category, c.category
+	ORDER BY g.category ASC;
+ */
 	 
 	// 카테고리 생성 메소드
 	String insertCategory = request.getParameter("insertCategory");
